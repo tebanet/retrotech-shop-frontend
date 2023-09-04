@@ -10,10 +10,10 @@
 :root {
 	--body-font-family: "Poppins", sans-serif;
 	--header-font-family: "Montserrat", sans-serif;
-	--primary-color: #001c30;
-	--secondary-color: #176b87;
-	--tertiary-color: #64ccc5;
-	--quaternary-color: #dafffb;
+	--primary-color: #f38181; /* Fondo */
+	--secondary-color: #fce38a; /* Menus */
+	--tertiary-color: #eaffd0; /* Componentes */
+	--quaternary-color: #95e1d3; /* Textos */
 }
 
 * {
