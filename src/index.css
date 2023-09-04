@@ -2,3 +2,41 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+:root {
+	--body-font-family: "Poppins", sans-serif;
+	--header-font-family: "Montserrat", sans-serif;
+	--primary-color: #001c30;
+	--secondary-color: #176b87;
+	--tertiary-color: #64ccc5;
+	--quaternary-color: #dafffb;
+}
+
+* {
+	box-sizing: border-box;
+	font-family: inherit;
+	font-size: inherit;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: var(--body-font-family);
+	overflow: hidden;
+	background-color: var(--primary-color);
+}
+
+div#root {
+	display: flex;
+	flex-direction: column;
+	min-width: 320px;
+	max-height: calc(var(--vh, 1vh) * 90);
+}
+
+h1 {
+	font-family: var(--header-font-family);
+}
