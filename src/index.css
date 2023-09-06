@@ -1,7 +1,7 @@
 /* TAILWIND */
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 ::-webkit-scrollbar {
 	display: none;
@@ -10,10 +10,10 @@
 :root {
 	--body-font-family: "Poppins", sans-serif;
 	--header-font-family: "Montserrat", sans-serif;
-	--primary-color: #f38181; /* Fondo */
-	--secondary-color: #fce38a; /* Menus */
-	--tertiary-color: #eaffd0; /* Componentes */
-	--quaternary-color: #95e1d3; /* Textos */
+	--primary-color: #ecf8f9; /* Fondo */
+	--secondary-color: #068da9; /* Menus */
+	--tertiary-color: #7e1717; /* Componentes */
+	--quaternary-color: #e55807; /* Textos */
 }
 
 * {
@@ -26,7 +26,6 @@
 
 body {
 	font-family: var(--body-font-family);
-	overflow: hidden;
 	background-color: var(--primary-color);
 }
 
@@ -34,7 +33,6 @@ div#root {
 	display: flex;
 	flex-direction: column;
 	min-width: 320px;
-	max-height: calc(var(--vh, 1vh) * 90);
 }
 
 h1 {
