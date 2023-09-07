@@ -1,0 +1,26 @@
+[
+	{
+		"id": 1,
+		"name": "Producto ejemplo",
+		"price": "200€",
+		"img": "https://fakeimg.pl/300x500"
+	},
+	{
+		"id": 2,
+		"name": "Producto ejemplo",
+		"price": "200€",
+		"img": "https://fakeimg.pl/300x500"
+	},
+	{
+		"id": 3,
+		"name": "Producto ejemplo",
+		"price": "200€",
+		"img": "https://fakeimg.pl/300x500"
+	},
+	{
+		"id": 4,
+		"name": "Producto ejemplo",
+		"price": "200€",
+		"img": "https://fakeimg.pl/300x500"
+	}
+]
