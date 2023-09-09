@@ -13,14 +13,18 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
+    "@hapi/tlds": "^1.0.1",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
     "@mui/styled-engine-sc": "^5.14.7",
     "animate.css": "^4.1.1",
+    "joi": "^17.10.1",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "tlds": "^1.242.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
