@@ -9,7 +9,8 @@ export function IndexPage() {
 
   return (
     <Main>
-      {auth.isAuthenticated() && <h1>Hola, {auth.user.username}!</h1>}
+      {auth.isAuthenticated() && <h1>Hola, (aquí debería ir el username)!</h1>}{" "}
+      {/* {auth.user.username} */}
       <h2 className="text-4xl block">¡Productos nuevos!</h2>
       <Container maxWidth="sm">
         <ul className="flex flex-row justify-start gap-4 overflow-x-scroll min-h-[21.5rem]">
