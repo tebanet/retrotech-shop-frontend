@@ -7,7 +7,7 @@ export function ProfileButton() {
 			<img
 				className="max-w-[1.5rem]"
 				src={
-					user?.avatarURL ??
+					user?.profilePic ??
 					"https://avatars0.githubusercontent.com/u/638974?s=460&v=4"
 				}
 				alt="pfp of user"
