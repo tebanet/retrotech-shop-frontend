@@ -8,149 +8,134 @@ import { useNavigate } from "react-router";
 import { useLogin } from "../hooks/use-login";
 
 const loginUserSchema = Joi.object({
-	email: Joi.string()
-		.email({ tlds: { allow: tlds } })
-		.required()
-		.messages({
-			"string.email": "Ingrese una dirección de correo electrónico válida.",
-			"any.required": "El correo electrónico es obligatorio.",
-		}),
-	password: Joi.string().required().messages({
-		"any.required": "La contraseña es obligatoria.",
-	}),
+  email: Joi.string()
+    .email({ tlds: { allow: tlds } })
+    .required()
+    .messages({
+      "string.email": "Ingrese una dirección de correo electrónico válida.",
+      "any.required": "El correo electrónico es obligatorio.",
+    }),
+  password: Joi.string().required().messages({
+    "any.required": "La contraseña es obligatoria.",
+  }),
 });
 
 export function LoginUserPage() {
-	const [requestObject, setRequestObject] = useState({
-		email: "",
-		password: "",
-	});
+  const setCurrentUserToken = useLogin();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-	const setCurrentUserToken = useLogin();
-	const navigate = useNavigate();
-	const [, errors] = validate(loginUserSchema, requestObject);
+  const [validationErrors, setValidationErrors] = useState({});
 
-	async function onSubmit() {
-		const [isValid] = validate(loginUserSchema, requestObject);
-		if (Result.success) {
-			setCurrentUserToken(result.data.token);
-			navigate("/");
-		} else {
-			console.log(result.error);
-		}
-	}
+  const validateField = (fieldName, value) => {
+    const schema = Joi.object({
+      [fieldName]: loginUserSchema.extract(fieldName),
+    });
 
-	function updateRequest(value) {
-		onChange((oldRequestObject) => {
-			return {
-				...oldRequestObject,
-				[name]: value,
-			};
-		});
-	}
-	/* const setCurrentUserToken = useLogin();
-	const navigate = useNavigate();
-	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
-	});
+    const { error } = schema.validate(
+      { [fieldName]: value },
+      { abortEarly: false }
+    );
 
-	const [validationErrors, setValidationErrors] = useState({});
+    if (error) {
+      return error.details[0].message;
+    } else {
+      return null;
+    }
+  };
 
-	const validateField = (fieldName, value) => {
-		const schema = Joi.object({
-			[fieldName]: loginUserSchema.extract(fieldName),
-		});
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
 
-		const { error } = schema.validate(
-			{ [fieldName]: value },
-			{ abortEarly: false }
-		);
+    const validationError = validateField(name, value);
+    setValidationErrors({
+      ...validationErrors,
+      [name]: validationError,
+    });
+  };
 
-		if (error) {
-			return error.details[0].message;
-		} else {
-			return null;
-		}
-	};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-	const handleInputChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({
-			...formData,
-			[name]: value,
-		});
+    const validationError = loginUserSchema.validate(formData, {
+      abortEarly: false,
+    });
 
-		const validationError = validateField(name, value);
-		setValidationErrors({
-			...validationErrors,
-			[name]: validationError,
-		});
-	};
+    if (validationError.error) {
+      const errors = {};
+      validationError.error.details.forEach((detail) => {
+        errors[detail.path[0]] = detail.message;
+      });
+      setValidationErrors(errors);
+      console.error("Error de validación:", validationError.error.details);
+      return;
+    }
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+    const requestBody = {
+      email: formData.email,
+      password: formData.password,
+    };
 
-		const validationError = loginUserSchema.validate(formData, {
-			abortEarly: false,
-		});
+    // Assuming the fetch request returns JSON
+    try {
+      const response = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
 
-		if (validationError.error) {
-			const errors = {};
-			validationError.error.details.forEach((detail) => {
-				errors[detail.path[0]] = detail.message;
-			});
-			setValidationErrors(errors);
-			console.error("Error de validación:", validationError.error.details);
-			return;
-		}
+      if (response.ok) {
+        const responseData = await response.json();
+        setCurrentUserToken(responseData.token);
+        navigate("/");
+      } else {
+        console.log("Error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
-		const requestBody = {
-			email: formData.email,
-			password: formData.password,
-		};
-
-		const response = await fetch("http://localhost:3000/users/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(requestBody),
-		});
-		if (response.success) {
-			setCurrentUserToken(response.data.token);
-			navigate("/");
-		} else {
-			console.log(response.error);
-		} */
-
-	return (
-		<Main>
-			<h1 className="text-4xl block">Inicia tu sesión</h1>
-			<form onSubmit={onSubmit}>
-				<TextField
-					label="Email"
-					type="email"
-					name="email"
-					onChange={(evt) => updateRequest(evt.target.value)}
-					required
-					errors={errors}
-				/>
-				<TextField
-					label="Password"
-					type="password"
-					name="password"
-					onChange={(evt) => updateRequest(evt.target.value)}
-					required
-					errors={errors}
-				/>
-				<Button type="submit" variant="contained" color="primary">
-					Iniciar sesión
-				</Button>
-			</form>
-			<p>
-				¿No tienes cuenta? <a href="/create-account">Regístrate!</a>
-			</p>
-		</Main>
-	);
+  return (
+    <Main>
+      <h1 className="text-4xl block">Inicia tu sesión</h1>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Email"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+          error={Boolean(validationErrors.email)}
+          helperText={validationErrors.email}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          required
+          error={Boolean(validationErrors.password)}
+          helperText={validationErrors.password}
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Iniciar sesión
+        </Button>
+      </form>
+      <p>
+        ¿No tienes cuenta? <a href="/create-account">Regístrate!</a>
+      </p>
+    </Main>
+  );
 }
