@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { useCurrentUser } from "../hooks/use-current-user.js";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { ProfileButton } from "./profile-button.jsx";
 
 export function BottomNavBar() {
 	return (
@@ -35,8 +36,8 @@ export function BottomNavBar() {
 				</li>
 				<li className="w-1/5">
 					<Link to="/:user" className="flex flex-col items-center">
-						<AccountCircleOutlinedIcon />
-						{/* {userToken ? avatarusuario : <AccountCircleOutlinedIcon />} */}
+						{}
+						<ProfileButton />
 						Perfil
 					</Link>
 				</li>
