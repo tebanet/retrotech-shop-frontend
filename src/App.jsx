@@ -7,6 +7,8 @@ import NewUserPage from "./pages/new-user";
 import ValidateUserPage from "./pages/validation-page";
 import { LoginUserPage } from "./pages/login-page";
 import { AuthContextProvider } from "./contexts/auth-context";
+import AddProduct from "./pages/new-product";
+
 
 function App() {
 	return (
@@ -17,6 +19,7 @@ function App() {
 				<Route path="/login" element={<LoginUserPage />} />
 				<Route path="/create-account" element={<NewUserPage />} />
 				<Route path="/users/validate" element={<ValidateUserPage />} />
+				<Route path="/add" element={<AddProduct />} />
 
 				{/* SIEMPRE AL FINAL */}
 				<Route path="*" element={<NotFound />} />
