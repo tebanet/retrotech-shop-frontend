@@ -7,6 +7,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { ProfileButton } from "./profile-button.jsx";
 
 export function BottomNavBar() {
+	const currentUser = useCurrentUser();
 	return (
 		<nav className="bg-[var(--secondary-color)] fixed bottom-0 right-0 left-0 border-t border-t-black lg:hidden">
 			<ul className="flex justify-around min-h-[4rem] items-center">
@@ -36,8 +37,7 @@ export function BottomNavBar() {
 				</li>
 				<li className="w-1/5">
 					<Link to="/:user" className="flex flex-col items-center">
-						{}
-						<ProfileButton />
+						<ProfileButton user={currentUser} />
 						Perfil
 					</Link>
 				</li>
