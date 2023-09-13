@@ -13,8 +13,6 @@ export function Header() {
 		setLogin(isLoggedIn);
 	}, [currentUser]);
 
-	console.log(login);
-
 	return (
 		<>
 			<header className="flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0 lg:hidden">
@@ -40,7 +38,7 @@ export function Header() {
 					<Link to="/:user">
 						<img
 							className="max-w-[2.5rem] rounded-lg"
-							src={currentUser?.profile_pic}
+							src={"http://localhost:3000/uploads/" + currentUser?.profile_pic}
 							alt="user pfp"
 						/>
 					</Link>
