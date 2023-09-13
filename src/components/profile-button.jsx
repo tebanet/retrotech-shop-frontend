@@ -1,17 +1,27 @@
-import { useCurrentUser } from "../hooks/use-current-user";
+import { useState } from "react";
+import default_avatar from "/assets/users/default_avatar.png";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
-export function ProfileButton() {
-	const user = useCurrentUser();
+export function ProfileButton({ user }) {
+	const [login, setLogin] = useState(false);
+
+	function userLogged() {
+		if (key == CURRENT_USER_STORAGE_ID) {
+			setLogin(true);
+		}
+	}
+
 	return (
 		<button>
-			<img
-				className="max-w-[1.5rem]"
-				src={
-					user?.profile_pic ??
-					"https://avatars0.githubusercontent.com/u/638974?s=460&v=4"
-				}
-				alt="pfp of user"
-			/>
+			{userLogged ? (
+				<img
+					className="max-w-[1.5rem] rounded-xl"
+					src={user?.profile_pic ?? default_avatar}
+					alt="pfp of user"
+				/>
+			) : (
+				<AccountCircleOutlinedIcon />
+			)}
 		</button>
 	);
 }
