@@ -1,12 +1,16 @@
 import LoginIcon from "@mui/icons-material/Login";
 import { Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../hooks/use-current-user";
 import { useEffect, useState } from "react";
+import { useLogout } from "../hooks/use-logout";
 
 export function Header() {
 	const currentUser = useCurrentUser();
 	const [login, setLogin] = useState(false);
+
+	const logout = useLogout();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const isLoggedIn = currentUser !== null;
@@ -24,6 +28,18 @@ export function Header() {
 					/>
 				</Link>
 				<TextField size="small" fullWidth label="¡Busca algo!" id="buscar" />
+				<Button
+					onClick={() => {
+						logout();
+						navigate("/");
+					}}
+					variant="outlined"
+					sx={{
+						borderColor: "#000000",
+						color: "white",
+					}}
+					endIcon={<LoginIcon />}
+				/>
 			</header>
 			<header className="hidden lg:flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0">
 				<Link to="/">
@@ -35,13 +51,29 @@ export function Header() {
 				</Link>
 
 				{login ? (
-					<Link to="/:user">
-						<img
-							className="max-w-[2.5rem] rounded-lg"
-							src={"http://localhost:3000/uploads/" + currentUser?.profile_pic}
-							alt="user pfp"
+					<nav className="flex gap-4">
+						<Link to="/:user">
+							<img
+								className="max-w-[2.5rem] rounded-lg"
+								src={
+									"http://localhost:3000/uploads/" + currentUser?.profile_pic
+								}
+								alt="user pfp"
+							/>
+						</Link>
+						<Button
+							onClick={() => {
+								logout();
+								navigate("/");
+							}}
+							variant="outlined"
+							sx={{
+								borderColor: "#000000",
+								color: "white",
+							}}
+							endIcon={<LoginIcon />}
 						/>
-					</Link>
+					</nav>
 				) : (
 					<Button
 						variant="outlined"

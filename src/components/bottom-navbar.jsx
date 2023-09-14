@@ -36,7 +36,7 @@ export function BottomNavBar() {
 					</Link>
 				</li>
 				<li className="w-1/5">
-					<Link to="/:user" className="flex flex-col items-center">
+					<Link to="/login" className="flex flex-col items-center">
 						<ProfileButton user={currentUser} />
 						Perfil
 					</Link>

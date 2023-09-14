@@ -15,7 +15,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<IndexPage />} />
 				<Route path="/login" element={<LoginUserPage />} />
-				<Route path="/create-account" element={<NewUserPage />} />
+				<Route path="/register" element={<NewUserPage />} />
 				<Route path="/users/validate" element={<ValidateUserPage />} />
 
 				{/* SIEMPRE AL FINAL */}
