@@ -22,8 +22,8 @@ export function IndexPage() {
 	return (
 		<Main>
 			<h2 className="text-4xl block">¡Productos nuevos!</h2>
-			<Container maxWidth="sm">
-				<ul className="flex flex-row flex-wrap justify-start gap-8 overflow-x-scroll min-h-[21.5rem]">
+			<Container maxWidth="2xl">
+				<ul className="flex flex-row flex-wrap justify-start gap-8 md:flex-nowrap md:overflow-x-scroll">
 					{products.map((product) => {
 						return (
 							<li key={product.product_id}>

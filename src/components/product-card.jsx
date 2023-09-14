@@ -1,6 +1,6 @@
 export function ProductCard({ product }) {
 	return (
-		<article className="flex py-2 w-[10.75rem] h-52">
+		<article className="flex w-[10.75rem] h-52 md:h-60">
 			<section className="flex flex-col h-max">
 				<img
 					src={"http://localhost:3000/uploads/" + product.product_image}
