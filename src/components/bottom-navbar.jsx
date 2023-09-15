@@ -1,13 +1,25 @@
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../hooks/use-current-user.js";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import { ProfileButton } from "./profile-button.jsx";
+import DrawerLogin from "./drawer-login.jsx";
+import DrawerLogout from "./drawer-logout.jsx";
+import { useEffect, useState } from "react";
 
 export function BottomNavBar() {
+	const [login, setLogin] = useState(false);
+
 	const currentUser = useCurrentUser();
+
+	useEffect(() => {
+		const isLoggedIn = currentUser !== null;
+		setLogin(isLoggedIn);
+	}, [currentUser]);
+
+	console.log(login);
+
 	return (
 		<nav className="bg-[var(--secondary-color)] fixed bottom-0 right-0 left-0 border-t border-t-black lg:hidden">
 			<ul className="flex justify-around min-h-[4rem] items-center">
@@ -18,9 +30,9 @@ export function BottomNavBar() {
 					</Link>
 				</li>
 				<li className="w-1/5">
-					<Link to="/:user/favorites" className="flex flex-col items-center">
-						<FavoriteBorderIcon />
-						Favoritos
+					<Link to="/search" className="flex flex-col items-center">
+						<SearchIcon />
+						Buscar
 					</Link>
 				</li>
 				<li className="w-1/5">
@@ -36,9 +48,8 @@ export function BottomNavBar() {
 					</Link>
 				</li>
 				<li className="w-1/5">
-					<Link to="/login" className="flex flex-col items-center">
-						<ProfileButton user={currentUser} />
-						Perfil
+					<Link className="flex flex-col items-center h-12">
+						{login ? <DrawerLogout /> : <DrawerLogin />}
 					</Link>
 				</li>
 			</ul>
