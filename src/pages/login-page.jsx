@@ -100,6 +100,14 @@ export function LoginUserPage() {
 				navigate("/");
 			} else {
 				console.log("Error:", response.statusText);
+				setFormData({
+					email: "",
+					password: "",
+				});
+				document.getElementById("button").style.backgroundColor = "red";
+				setTimeout(() => {
+					document.getElementById("button").style.backgroundColor = "#1976D2";
+				}, 750);
 			}
 		} catch (error) {
 			console.error("Network error:", error);
@@ -133,7 +141,7 @@ export function LoginUserPage() {
 					error={Boolean(validationErrors.password)}
 					helperText={validationErrors.password}
 				/>
-				<Button type="submit" variant="contained" color="primary">
+				<Button id="button" type="submit" variant="contained" color="primary">
 					Iniciar sesión
 				</Button>
 			</form>
