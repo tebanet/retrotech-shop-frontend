@@ -27,19 +27,6 @@ export function Header() {
 						className="w-12"
 					/>
 				</Link>
-				<TextField size="small" fullWidth label="¡Busca algo!" id="buscar" />
-				<Button
-					onClick={() => {
-						logout();
-						navigate("/");
-					}}
-					variant="outlined"
-					sx={{
-						borderColor: "#000000",
-						color: "white",
-					}}
-					endIcon={<LoginIcon />}
-				/>
 			</header>
 			<header className="hidden lg:flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0">
 				<Link to="/">
