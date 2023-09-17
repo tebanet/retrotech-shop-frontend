@@ -8,6 +8,7 @@ import { ValidateUserPage } from "./pages/validation-page";
 import { LoginUserPage } from "./pages/login-page";
 import { AuthContextProvider } from "./contexts/auth-context";
 import ModifyUserPage from "./pages/modify-user";
+import PasswordResetRequest from "./pages/recovery-password";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
         <Route path="/register" element={<NewUserPage />} />
         <Route path="/users/validate" element={<ValidateUserPage />} />
         <Route path="/users/update" element={<ModifyUserPage />} />
+        <Route
+          path="/users/recovery-password"
+          element={<PasswordResetRequest />}
+        />
 
         {/* SIEMPRE AL FINAL */}
         <Route path="*" element={<NotFound />} />

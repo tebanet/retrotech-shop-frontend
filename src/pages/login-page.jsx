@@ -150,6 +150,14 @@ export function LoginUserPage() {
           ¡Regístrate!
         </Link>
       </p>
+      <p className="flex justify-center gap-2">
+        <Link
+          to="/users/recovery-password"
+          style={{ color: "var(--quaternary-color)" }}
+        >
+          ¿Olvidaste tu contraseña?
+        </Link>
+      </p>
     </Main>
   );
 }

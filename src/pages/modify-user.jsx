@@ -5,7 +5,7 @@ import { API_HOST } from "../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { useCurrentUser } from "../hooks/use-current-user";
-import tlds from "tlds";
+import { tlds } from "@hapi/tlds";
 
 const modifyUserSchema = Joi.object({
   email: Joi.string()
@@ -169,7 +169,7 @@ function ModifyUserPage() {
           Es obligatorio que coloques tu contraseña actual, si quieres cambiar
           la contraseña
           <Link
-            to="/users/change-password"
+            to="/users/recovery-password"
             style={{ color: "var(--quaternary-color)" }}
           >
             haz click aqui
