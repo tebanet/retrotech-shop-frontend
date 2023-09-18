@@ -9,11 +9,13 @@ import { LoginUserPage } from "./pages/login-page";
 import { AuthContextProvider } from "./contexts/auth-context";
 import PasswordResetRequest from "./pages/recovery-password";
 import ChangePassword from "./pages/change-password";
+import { Toaster } from "sonner";
 import ModifyUserPage from "./pages/modify-user";
 
 function App() {
   return (
     <AuthContextProvider>
+      <Toaster richColors position="top-center" />
       <Header />
       <Routes>
         <Route path="/" element={<IndexPage />} />

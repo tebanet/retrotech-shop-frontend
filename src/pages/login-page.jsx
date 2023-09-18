@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/use-login";
 import { Link } from "react-router-dom";
 import { API_HOST } from "../utils/constants";
+import { toast } from "sonner";
 
 const loginUserSchema = Joi.object({
   email: Joi.string()
@@ -95,6 +96,7 @@ export function LoginUserPage() {
 
       if (response.ok) {
         const responseData = await response.json();
+        toast.success("Bienvenido a RetroTechShop");
         setCurrentUserToken(responseData.token);
         navigate("/");
       } else {
@@ -103,10 +105,7 @@ export function LoginUserPage() {
           email: "",
           password: "",
         });
-        document.getElementById("button").style.backgroundColor = "red";
-        setTimeout(() => {
-          document.getElementById("button").style.backgroundColor = "#1976D2";
-        }, 750);
+        toast.error("Usuario o contraseña incorrectos");
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -140,7 +139,7 @@ export function LoginUserPage() {
           error={Boolean(validationErrors.password)}
           helperText={validationErrors.password}
         />
-        <Button id="button" type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary">
           Iniciar sesión
         </Button>
       </form>
