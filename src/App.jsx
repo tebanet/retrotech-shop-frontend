@@ -7,9 +7,9 @@ import NewUserPage from "./pages/new-user";
 import { ValidateUserPage } from "./pages/validation-page";
 import { LoginUserPage } from "./pages/login-page";
 import { AuthContextProvider } from "./contexts/auth-context";
-import ModifyUserPage from "./pages/modify-user";
 import PasswordResetRequest from "./pages/recovery-password";
 import ChangePassword from "./pages/change-password";
+import ModifyUserPage from "./pages/modify-user";
 
 function App() {
   return (

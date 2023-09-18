@@ -3,7 +3,7 @@ import { TextField, Button } from "@mui/material";
 import { Main } from "../components/main";
 import Joi from "joi";
 import { tlds } from "@hapi/tlds";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { API_HOST } from "../utils/constants";
 
 const newUserSchema = Joi.object({

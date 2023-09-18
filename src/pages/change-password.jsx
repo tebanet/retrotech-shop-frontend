@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { API_HOST } from "../utils/constants";
 import { Main } from "../components/main";

@@ -10,26 +10,31 @@ import { tlds } from "@hapi/tlds";
 const modifyUserSchema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: tlds } })
+    .optional()
+    .allow("")
     .messages({
       "string.min": "El correo electrónico debe tener más de 4 caracteres.",
       "string.max": "El correo electrónico debe tener menos de 100 caracteres.",
     }),
-  username: Joi.string().min(4).max(100).messages({
+  username: Joi.string().min(4).max(100).optional().allow("").messages({
     "string.min": "El nombre de usuario debe tener más de 4 caracteres.",
     "string.max": "El nombre de usuario debe tener menos de 100 caracteres.",
   }),
   password: Joi.string().required().messages({
+    "string.empty":
+      "Por motivos de seguridad, es obligatorio que coloques tu contraseña.",
     "any.required":
       "Por motivos de seguridad, es obligatorio que coloques tu contraseña.",
   }),
-  bio: Joi.string().min(4).max(255).messages({
+  bio: Joi.string().min(4).max(255).optional().allow("").messages({
     "string.min": "La biografía debe tener más de 4 caracteres.",
     "string.max": "La biografía debe tener menos de 255 caracteres.",
   }),
-  address: Joi.string().min(4).max(100).messages({
+  address: Joi.string().min(4).max(100).optional().allow("").messages({
     "string.min": "La dirección debe tener más de 4 caracteres.",
     "string.max": "La dirección debe tener menos de 100 caracteres.",
   }),
+  profile_pic: Joi.any().optional().allow(""),
 });
 
 function ModifyUserPage() {
@@ -43,8 +48,23 @@ function ModifyUserPage() {
     bio: "",
     address: "",
     password: "",
-    profile_pic: null, // Esto se maneja abajo
   });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({
+      ...formData,
+      profile_pic: file,
+    });
+  };
 
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -56,6 +76,7 @@ function ModifyUserPage() {
     });
 
     if (error) {
+      console.log("Validation failed:", error.details);
       const errors = {};
       error.details.forEach((detail) => {
         errors[detail.path[0]] = detail.message;
@@ -64,22 +85,19 @@ function ModifyUserPage() {
       return;
     }
 
-    const requestBody = {
-      username: formData.username,
-      email: formData.email,
-      bio: formData.bio,
-      address: formData.address,
-      password: formData.password,
-    };
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+      console.log(`Form Data: ${key} = ${value}`);
+    });
 
     try {
-      const response = await fetch(API_HOST + "/users/update", {
+      const response = await fetch(API_HOST + `/users/update/${user.id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${localStorage.userToken}`,
         },
-        body: JSON.stringify(requestBody),
+        body: data,
       });
 
       if (response.ok) {
@@ -89,22 +107,6 @@ function ModifyUserPage() {
       }
     } catch (error) {
       console.error("Error de conexión:", error);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === "profile_pic") {
-      setFormData({
-        ...formData,
-        [name]: files[0],
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
     }
   };
 
@@ -154,7 +156,7 @@ function ModifyUserPage() {
           label="Foto de perfil"
           type="file"
           name="profile_pic"
-          onChange={handleInputChange}
+          onChange={handleProfilePicChange}
         />
         <TextField
           label="Contraseña"

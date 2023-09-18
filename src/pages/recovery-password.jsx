@@ -4,7 +4,7 @@ import { tlds } from "@hapi/tlds";
 import { API_HOST } from "../utils/constants";
 import Joi from "joi";
 import { Main } from "../components/main";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const schema = Joi.object({
   email: Joi.string()
