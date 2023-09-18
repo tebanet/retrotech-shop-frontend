@@ -18,8 +18,6 @@ export function BottomNavBar() {
 		setLogin(isLoggedIn);
 	}, [currentUser]);
 
-	console.log(login);
-
 	return (
 		<nav className="bg-[var(--secondary-color)] fixed bottom-0 right-0 left-0 border-t border-t-black lg:hidden">
 			<ul className="flex justify-around min-h-[4rem] items-center">
