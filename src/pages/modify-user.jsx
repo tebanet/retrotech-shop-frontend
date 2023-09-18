@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { useCurrentUser } from "../hooks/use-current-user";
 import { tlds } from "@hapi/tlds";
+import { toast } from "sonner";
 
 const modifyUserSchema = Joi.object({
   email: Joi.string()
@@ -101,8 +102,10 @@ function ModifyUserPage() {
       });
 
       if (response.ok) {
+        toast.success("Usuario actualizado con éxito");
         navigate("/");
       } else {
+        toast.error("Error al actualizar el usuario");
         console.error("Error:", response.statusText);
       }
     } catch (error) {
