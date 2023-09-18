@@ -16,7 +16,6 @@ export function IndexPage() {
 		const result = await getAllProducts();
 		if (result.status == "ok") {
 			setProducts(result.data);
-		} else {
 		}
 	}
 
