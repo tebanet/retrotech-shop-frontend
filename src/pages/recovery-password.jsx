@@ -42,7 +42,7 @@ const PasswordResetRequest = () => {
     }
 
     try {
-      const response = await fetch(API_HOST + "/users/reset-password", {
+      const checkResponse = await fetch(API_HOST + "/users/check-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,11 +50,25 @@ const PasswordResetRequest = () => {
         body: JSON.stringify({ email }),
       });
 
-      if (response.ok) {
-        console.log("El código de recuperación se ha enviado correctamente");
-        navigate("/users/change-password"); //Aqui tiene que ir a la pagina donde poner el codigo y setear nueva contraseña
+      if (checkResponse.ok) {
+        const response = await fetch(API_HOST + "/users/reset-password", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (response.ok) {
+          console.log("El código de recuperación se ha enviado correctamente");
+          navigate("/users/change-password");
+        } else {
+          console.error("Error al enviar el código de recuperación");
+        }
       } else {
-        console.error("Error al enviar el código de recuperación");
+        setError(
+          "El correo electrónico no está registrado en nuestra base de datos."
+        );
       }
     } catch (error) {
       console.error("Error:", error);
