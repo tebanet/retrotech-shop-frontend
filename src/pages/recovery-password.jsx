@@ -4,7 +4,7 @@ import { tlds } from "@hapi/tlds";
 import { API_HOST } from "../utils/constants";
 import Joi from "joi";
 import { Main } from "../components/main";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const schema = Joi.object({
   email: Joi.string()
@@ -52,7 +52,7 @@ const PasswordResetRequest = () => {
 
       if (response.ok) {
         console.log("El código de recuperación se ha enviado correctamente");
-        navigate("/"); //Aqui tiene que ir a la pagina donde poner el codigo y setear nueva contraseña
+        navigate("/users/change-password"); //Aqui tiene que ir a la pagina donde poner el codigo y setear nueva contraseña
       } else {
         console.error("Error al enviar el código de recuperación");
       }

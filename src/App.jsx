@@ -9,6 +9,7 @@ import { LoginUserPage } from "./pages/login-page";
 import { AuthContextProvider } from "./contexts/auth-context";
 import ModifyUserPage from "./pages/modify-user";
 import PasswordResetRequest from "./pages/recovery-password";
+import ChangePassword from "./pages/change-password";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           path="/users/recovery-password"
           element={<PasswordResetRequest />}
         />
+        <Route path="/users/change-password" element={<ChangePassword />} />
 
         {/* SIEMPRE AL FINAL */}
         <Route path="*" element={<NotFound />} />
