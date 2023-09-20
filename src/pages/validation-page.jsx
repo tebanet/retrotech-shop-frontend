@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { Main } from "../components/main";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { API_HOST } from "../utils/constants";
 
 export function ValidateUserPage() {

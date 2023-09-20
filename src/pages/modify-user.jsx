@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField, Button, TextareaAutosize, Input } from "@mui/material";
 import { Main } from "../components/main";
 import { API_HOST } from "../utils/constants";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Joi from "joi";
 import { useCurrentUser } from "../hooks/use-current-user";
 import { tlds } from "@hapi/tlds";
@@ -39,9 +39,9 @@ const modifyUserSchema = Joi.object({
 });
 
 function ModifyUserPage() {
-  const navigate = useNavigate();
-
   const user = useCurrentUser();
+
+  const token = localStorage.getItem("userToken");
 
   const [formData, setFormData] = useState({
     username: "",
@@ -96,14 +96,13 @@ function ModifyUserPage() {
       const response = await fetch(API_HOST + `/users/update/${user.id}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.userToken}`,
+          Authorization: `${token}`,
         },
         body: data,
       });
 
       if (response.ok) {
         toast.success("Usuario actualizado con éxito");
-        navigate("/");
       } else {
         toast.error("Error al actualizar el usuario");
         console.error("Error:", response.statusText);

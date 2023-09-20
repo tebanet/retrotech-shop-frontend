@@ -1,26 +1,11 @@
 import { useState } from "react";
-import { TextField, Button } from "@mui/material";
 import { Main } from "../components/main";
-import Joi from "joi";
-import { tlds } from "@hapi/tlds";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/use-login";
 import { Link } from "react-router-dom";
-import { API_HOST } from "../utils/constants";
-import { toast } from "sonner";
-
-const loginUserSchema = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: tlds } })
-    .required()
-    .messages({
-      "string.email": "Ingrese una dirección de correo electrónico válida.",
-      "any.required": "El correo electrónico es obligatorio.",
-    }),
-  password: Joi.string().required().messages({
-    "any.required": "La contraseña es obligatoria.",
-  }),
-});
+import { loginUserSchema, validateField } from "../utils/joi-validation";
+import { loginUser } from "../api/login-request";
+import { LoginForm } from "../forms/login-form";
 
 export function LoginUserPage() {
   const setCurrentUserToken = useLogin();
@@ -32,23 +17,6 @@ export function LoginUserPage() {
 
   const [validationErrors, setValidationErrors] = useState({});
 
-  const validateField = (fieldName, value) => {
-    const schema = Joi.object({
-      [fieldName]: loginUserSchema.extract(fieldName),
-    });
-
-    const { error } = schema.validate(
-      { [fieldName]: value },
-      { abortEarly: false }
-    );
-
-    if (error) {
-      return error.details[0].message;
-    } else {
-      return null;
-    }
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -56,7 +24,7 @@ export function LoginUserPage() {
       [name]: value,
     });
 
-    const validationError = validateField(name, value);
+    const validationError = validateField(name, value, loginUserSchema);
     setValidationErrors({
       ...validationErrors,
       [name]: validationError,
@@ -66,83 +34,35 @@ export function LoginUserPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationError = loginUserSchema.validate(formData, {
-      abortEarly: false,
-    });
+    const { error } = loginUserSchema.validate(formData, { abortEarly: false });
 
-    if (validationError.error) {
+    if (error) {
       const errors = {};
-      validationError.error.details.forEach((detail) => {
+      error.details.forEach((detail) => {
         errors[detail.path[0]] = detail.message;
       });
       setValidationErrors(errors);
-      console.error("Error de validación:", validationError.error.details);
       return;
     }
 
-    const requestBody = {
-      email: formData.email,
-      password: formData.password,
-    };
-
-    try {
-      const response = await fetch(API_HOST + "/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        toast.success("Bienvenido a RetroTechShop");
-        setCurrentUserToken(responseData.token);
-        navigate("/");
-      } else {
-        toast.error("Usuario o contraseña incorrectos");
-        console.log("Error:", response.statusText);
-        setFormData({
-          email: "",
-          password: "",
-        });
-      }
-    } catch (error) {
-      console.error("Network error:", error);
+    const token = await loginUser(formData.email, formData.password);
+    if (token) {
+      setCurrentUserToken(token);
+      navigate("/");
+    } else {
+      setFormData({ email: "", password: "" });
     }
   };
 
   return (
     <Main>
       <h1 className="text-4xl block self-center">Inicia sesión</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 md:px-44 lg:px-60 xl:px-96"
-      >
-        <TextField
-          label="Email"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          required
-          error={Boolean(validationErrors.email)}
-          helperText={validationErrors.email}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-          error={Boolean(validationErrors.password)}
-          helperText={validationErrors.password}
-        />
-        <Button id="button" type="submit" variant="contained" color="primary">
-          Iniciar sesión
-        </Button>
-      </form>
+      <LoginForm
+        formData={formData}
+        handleInputChange={handleInputChange}
+        validationErrors={validationErrors}
+        handleSubmit={handleSubmit}
+      />
       <p className="flex justify-center gap-2">
         ¿No tienes cuenta?
         <Link to="/register" style={{ color: "var(--quaternary-color)" }}>
