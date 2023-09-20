@@ -11,31 +11,32 @@ import PasswordResetRequest from "./pages/recovery-password";
 import ChangePassword from "./pages/change-password";
 import { Toaster } from "sonner";
 import ModifyUserPage from "./pages/modify-user";
+import { UserPage } from "./pages/user-page";
 
 function App() {
-  return (
-    <AuthContextProvider>
-      <Toaster richColors position="top-center" />
-      <Header />
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/login" element={<LoginUserPage />} />
-        <Route path="/register" element={<NewUserPage />} />
-        <Route path="/users/validate" element={<ValidateUserPage />} />
-        <Route path="/users/update" element={<ModifyUserPage />} />
-        <Route
-          path="/users/recovery-password"
-          element={<PasswordResetRequest />}
-        />
-        <Route path="/users/change-password" element={<ChangePassword />} />
+	return (
+		<AuthContextProvider>
+			<Toaster richColors position="top-center" />
+			<Header />
+			<Routes>
+				<Route index element={<IndexPage />} />
+				<Route path="/login" element={<LoginUserPage />} />
+				<Route path="/register" element={<NewUserPage />} />
+				<Route path="/users/">
+					<Route path=":username" element={<UserPage />} />
+					<Route path="validate" element={<ValidateUserPage />} />
+					<Route path="update" element={<ModifyUserPage />} />
+					<Route path="recovery-password" element={<PasswordResetRequest />} />
+					<Route path="change-password" element={<ChangePassword />} />
+				</Route>
 
-        {/* SIEMPRE AL FINAL */}
-        <Route path="*" element={<NotFound />} />
-        {/* SIEMPRE AL FINAL */}
-      </Routes>
-      <BottomNavBar />
-    </AuthContextProvider>
-  );
+				{/* SIEMPRE AL FINAL */}
+				<Route path="*" element={<NotFound />} />
+				{/* SIEMPRE AL FINAL */}
+			</Routes>
+			<BottomNavBar />
+		</AuthContextProvider>
+	);
 }
 
 export default App;
