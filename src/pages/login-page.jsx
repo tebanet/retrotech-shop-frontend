@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/use-login";
 import { Link } from "react-router-dom";
 import { loginUserSchema, validateField } from "../utils/joi-validation";
-import { loginUser } from "../api/login-request";
+import { loginUser } from "../api/post-login-request";
 import { LoginForm } from "../forms/login-form";
 
 export function LoginUserPage() {

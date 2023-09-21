@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Main } from "../components/main";
 import { useNavigate } from "react-router-dom";
 import { newUserSchema, validateField } from "../utils/joi-validation";
-import { registerUser } from "../api/register-user-request";
+import { registerUser } from "../api/post-register-user-request";
 import { RegistrationForm } from "../forms/registration-form";
 
 export function NewUserPage() {

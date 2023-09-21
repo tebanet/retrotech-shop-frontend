@@ -41,6 +41,36 @@ export const newUserSchema = Joi.object({
     }),
 });
 
+export const passwordResetSchema = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: tlds } })
+    .required()
+    .messages({
+      "string.email": "Ingrese una dirección de correo electrónico válida.",
+      "any.required": "El correo electrónico es obligatorio.",
+    }),
+});
+
+export const changePasswordSchema = Joi.object({
+  token: Joi.string().required(),
+  newPassword: Joi.string()
+    .pattern(new RegExp("^[a-zA-Z0-9]{8,30}$"))
+    .required()
+    .messages({
+      "string.pattern.base":
+        "La contraseña debe tener más de 8 y menos de 30 caracteres, y debe contener letras mayúsculas, minúsculas y números.",
+      "any.required": "La contraseña es obligatoria.",
+    }),
+  repeatPassword: Joi.string()
+    .pattern(new RegExp("^[a-zA-Z0-9]{8,30}$"))
+    .required()
+    .messages({
+      "string.pattern.base":
+        "La contraseña debe tener más de 8 y menos de 30 caracteres, y debe contener letras mayúsculas, minúsculas y números.",
+      "any.required": "La contraseña es obligatoria.",
+    }),
+});
+
 export const validateField = (fieldName, value, schema) => {
   const joiSchema = Joi.object({
     [fieldName]: schema.extract(fieldName),
