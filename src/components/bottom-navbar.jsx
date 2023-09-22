@@ -29,7 +29,7 @@ export function BottomNavBar() {
 					</Link>
 				</li>
 				<li className="w-1/5">
-					<Link to="/:user/inbox" className="flex flex-col items-center">
+					<Link to="/users/alerts" className="flex flex-col items-center">
 						<Badge badgeContent={1} variant="dot" color="error">
 							<MailOutlineIcon />
 						</Badge>

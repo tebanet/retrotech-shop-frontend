@@ -32,6 +32,7 @@ function App() {
 					<Route path="update" element={<ModifyUserPage />} />
 					<Route path="recovery-password" element={<PasswordResetRequest />} />
 					<Route path="change-password" element={<ChangePassword />} />
+					<Route path="alerts" element />
 				</Route>
 				<Route path="/products">
 					<Route path=":product_id" element={<ProductPage />} />
