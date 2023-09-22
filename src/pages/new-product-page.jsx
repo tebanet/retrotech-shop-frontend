@@ -13,7 +13,7 @@ export function NewProduct() {
 	useEffect(() => {
 		const isLoggedIn = currentUser !== null;
 		setLogin(isLoggedIn);
-		if (login == false) {
+		if (!localStorage.getItem("userToken")) {
 			navigate("/login");
 		}
 	}, [currentUser]);

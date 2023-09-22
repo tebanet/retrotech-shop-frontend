@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import UserDrawer from "./user-drawer.jsx";
+import { Badge } from "@mui/material";
 
 export function BottomNavBar() {
 	return (
@@ -29,8 +30,10 @@ export function BottomNavBar() {
 				</li>
 				<li className="w-1/5">
 					<Link to="/:user/inbox" className="flex flex-col items-center">
-						<MailOutlineIcon />
-						Buzon
+						<Badge badgeContent={1} variant="dot" color="error">
+							<MailOutlineIcon />
+						</Badge>
+						Alertas
 					</Link>
 				</li>
 				<li className="w-1/5">
