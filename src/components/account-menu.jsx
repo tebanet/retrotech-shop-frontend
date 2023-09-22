@@ -14,7 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../hooks/use-current-user";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
-import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
+import AddBusinessOutlinedIcon from "@mui/icons-material/AddBusinessOutlined";
 
 export default function AccountMenu() {
 	const currentUser = useCurrentUser();
@@ -100,9 +101,17 @@ export default function AccountMenu() {
 						<Link to={"/users/" + currentUser?.username}>
 							<MenuItem onClick={handleClose}>
 								<ListItemIcon>
-									<ManageAccountsOutlinedIcon />
+									<PersonSearchOutlinedIcon />
 								</ListItemIcon>
 								Perfil
+							</MenuItem>
+						</Link>
+						<Link to="/products/new">
+							<MenuItem onClick={handleClose}>
+								<ListItemIcon>
+									<AddBusinessOutlinedIcon />
+								</ListItemIcon>
+								Añadir producto
 							</MenuItem>
 						</Link>
 						<Divider />
