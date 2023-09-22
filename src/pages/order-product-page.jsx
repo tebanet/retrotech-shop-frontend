@@ -1,11 +1,13 @@
 import { Main } from "../components/main";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { getProductData } from "../api/get-product-data";
-import { Button } from "@mui/material";
+import { OrderProductForm } from "../forms/order-product-form";
+import { postOrder } from "../api/post-order";
+import { toast } from "sonner";
 
-export function ProductPage() {
+export function OrderProductPage() {
 	const navigate = useNavigate();
 
 	let { product_id } = useParams();
@@ -24,7 +26,32 @@ export function ProductPage() {
 		fetchProductData();
 	}, []);
 
-	console.log(productData);
+	const [formData, setFormData] = useState({
+		message: "",
+		delivery_place: "",
+	});
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+	};
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const orderCreated = await postOrder(
+			product_id,
+			formData.message,
+			formData.delivery_place
+		);
+
+		if (orderCreated) {
+			navigate("/");
+			toast.success("¡Pedido hecho! Ahora solo falta esperar 😊");
+		}
+	};
 
 	return (
 		<Main>
@@ -35,12 +62,6 @@ export function ProductPage() {
 					alt={"foto de " + productData.product_title}
 				/>
 			</section>
-			<Link
-				className="self-center"
-				to={"/products/" + productData.product_id + "/order"}
-			>
-				<Button variant="contained">¡Quiero comprarlo!</Button>
-			</Link>
 			<section className="flex flex-col pl-4">
 				<h1>
 					{productData.product_title} - {productData.price}€ -{" "}
@@ -52,6 +73,11 @@ export function ProductPage() {
 				<h3>{productData.description}</h3>
 				<h4>{productData.username}</h4>
 			</section>
+			<OrderProductForm
+				formData={formData}
+				handleInputChange={handleInputChange}
+				handleSubmit={handleSubmit}
+			/>
 		</Main>
 	);
 }
