@@ -22,6 +22,7 @@ export const ChangePasswordForm = ({
       label="Nueva Contraseña"
       name="newPassword"
       type="password"
+      autoComplete="new-password"
       value={formData.newPassword}
       onChange={handleChange}
       required
@@ -30,6 +31,7 @@ export const ChangePasswordForm = ({
       label="Repetir Contraseña"
       name="repeatPassword"
       type="password"
+      autoComplete="new-password"
       value={formData.repeatPassword}
       onChange={handleChange}
       required
