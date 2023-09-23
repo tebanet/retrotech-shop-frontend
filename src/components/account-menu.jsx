@@ -49,12 +49,7 @@ export default function AccountMenu() {
 						aria-expanded={open ? "true" : undefined}
 					>
 						{login ? (
-							<Avatar
-								alt="user pfp"
-								src={
-									"http://localhost:3000/uploads/" + currentUser?.profile_pic
-								}
-							/>
+							<Avatar alt="user pfp" src={currentUser?.profile_pic} />
 						) : (
 							<Avatar />
 						)}
