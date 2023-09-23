@@ -14,6 +14,8 @@ import ModifyUserPage from "./pages/modify-user";
 import { UserPage } from "./pages/user-page";
 import { ProductPage } from "./pages/product_page";
 import { CategoryPage } from "./pages/category-page";
+import { NewProduct } from "./pages/new-product-page";
+import { OrderProductPage } from "./pages/order-product-page";
 
 function App() {
 	return (
@@ -30,9 +32,12 @@ function App() {
 					<Route path="update" element={<ModifyUserPage />} />
 					<Route path="recovery-password" element={<PasswordResetRequest />} />
 					<Route path="change-password" element={<ChangePassword />} />
+					<Route path="alerts" element />
 				</Route>
 				<Route path="/products">
 					<Route path=":product_id" element={<ProductPage />} />
+					<Route path=":product_id/order" element={<OrderProductPage />} />
+					<Route path="new" element={<NewProduct />} />
 				</Route>
 				<Route path="/category">
 					<Route path=":category" element={<CategoryPage />} />
