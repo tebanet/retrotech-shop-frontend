@@ -57,7 +57,10 @@ export const passwordResetSchema = Joi.object({
 });
 
 export const changePasswordSchema = Joi.object({
-  token: Joi.string().required(),
+  token: Joi.string().required().messages({
+    "string.empty": "Este campo no puede estar vacio.",
+    "any.required": "El token es obligatorio.",
+  }),
   newPassword: Joi.string()
     .pattern(new RegExp("^[a-zA-Z0-9]{8,30}$"))
     .required()
