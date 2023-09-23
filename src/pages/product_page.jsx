@@ -4,8 +4,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { getProductData } from "../api/get-product-data";
 import { Button } from "@mui/material";
+import { useCurrentUser } from "../hooks/use-current-user";
 
 export function ProductPage() {
+	const currentUser = useCurrentUser();
+	const [ownership, setOwnership] = useState(false);
+
 	const navigate = useNavigate();
 
 	let { product_id } = useParams();
@@ -20,9 +24,19 @@ export function ProductPage() {
 	}
 	const shortDate = dayjs(productData.createdAt).format("DD/MM/YYYY");
 
+	const checkOwnership = () => {
+		if (productData.username === currentUser?.username) {
+			setOwnership(true);
+		}
+	};
+
+	useEffect(() => {
+		checkOwnership();
+	}, [productData]);
+
 	useEffect(() => {
 		fetchProductData();
-	}, []);
+	}, [product_id]);
 
 	console.log(productData);
 
@@ -35,12 +49,21 @@ export function ProductPage() {
 					alt={"foto de " + productData.product_title}
 				/>
 			</section>
-			<Link
-				className="self-center"
-				to={"/products/" + productData.product_id + "/order"}
-			>
-				<Button variant="contained">¡Quiero comprarlo!</Button>
-			</Link>
+			{ownership ? (
+				<Link
+					className="self-center"
+					to={"/products/" + productData.product_id + "/edit"}
+				>
+					<Button variant="contained">Editar producto</Button>
+				</Link>
+			) : (
+				<Link
+					className="self-center"
+					to={"/products/" + productData.product_id + "/order"}
+				>
+					<Button variant="contained">¡Quiero comprarlo!</Button>
+				</Link>
+			)}
 			<section className="flex flex-col pl-4">
 				<h1>
 					{productData.product_title} - {productData.price}€ -{" "}
@@ -50,7 +73,9 @@ export function ProductPage() {
 					Puesto a la venta: {shortDate} {productData.location}
 				</h2>
 				<h3>{productData.description}</h3>
-				<h4>{productData.username}</h4>
+				<Link to={"/users/" + productData.username}>
+					<h4>{productData.username}</h4>
+				</Link>
 			</section>
 		</Main>
 	);

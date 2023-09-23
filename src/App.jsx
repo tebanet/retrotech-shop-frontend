@@ -16,6 +16,8 @@ import { ProductPage } from "./pages/product_page";
 import { CategoryPage } from "./pages/category-page";
 import { NewProduct } from "./pages/new-product-page";
 import { OrderProductPage } from "./pages/order-product-page";
+import { OrdersPage } from "./pages/user-orders-page";
+import { OffersPage } from "./pages/user-offers-page";
 
 function App() {
 	return (
@@ -28,6 +30,8 @@ function App() {
 				<Route path="/register" element={<NewUserPage />} />
 				<Route path="/users/">
 					<Route path=":username" element={<UserPage />} />
+					<Route path=":username/orders" element={<OrdersPage />} />
+					<Route path=":username/offers" element={<OffersPage />} />
 					<Route path="validate" element={<ValidateUserPage />} />
 					<Route path="update" element={<ModifyUserPage />} />
 					<Route path="recovery-password" element={<PasswordResetRequest />} />

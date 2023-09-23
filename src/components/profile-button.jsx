@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import default_avatar from "/assets/users/default_avatar.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Avatar } from "@mui/material";
 
