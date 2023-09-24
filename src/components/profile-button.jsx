@@ -4,14 +4,29 @@ import { Avatar } from "@mui/material";
 import { API_HOST } from "../utils/constants";
 
 export function ProfileButton({ user, onClick }) {
-  const [login, setLogin] = useState(false);
-  const currentUser = user;
+	const [login, setLogin] = useState(false);
+	const currentUser = user;
 
-  useEffect(() => {
-    const isLoggedIn = currentUser !== null;
-    setLogin(isLoggedIn);
-  }, [currentUser]);
+	useEffect(() => {
+		const isLoggedIn = currentUser !== null;
+		setLogin(isLoggedIn);
+	}, [currentUser]);
 
+<<<<<<< HEAD
+	return (
+		<button onClick={onClick}>
+			{login ? (
+				<Avatar
+					className="max-w-[1.5rem] max-h-[1.5rem]"
+					alt="user pfp"
+					src={user?.profile_pic}
+				/>
+			) : (
+				<AccountCircleOutlinedIcon />
+			)}
+		</button>
+	);
+=======
   return (
     <button onClick={onClick}>
       {login ? (
@@ -28,4 +43,5 @@ export function ProfileButton({ user, onClick }) {
       )}
     </button>
   );
+>>>>>>> main
 }
