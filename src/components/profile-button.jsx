@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import default_avatar from "/assets/users/default_avatar.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Avatar } from "@mui/material";
 import { API_HOST } from "../utils/constants";
@@ -19,7 +18,10 @@ export function ProfileButton({ user, onClick }) {
         <Avatar
           className="max-w-[1.5rem] max-h-[1.5rem]"
           alt="Foto de Perfil"
-          src={API_HOST + "/profile_pics/default_profile_pic.webp"}
+          src={
+            user.profile_pic ||
+            API_HOST + "/profile_pics/default_profile_pic.webp"
+          }
         />
       ) : (
         <AccountCircleOutlinedIcon />
