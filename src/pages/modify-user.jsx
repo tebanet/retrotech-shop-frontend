@@ -1,55 +1,23 @@
 import { useState } from "react";
-import { TextField, Button, TextareaAutosize, Input } from "@mui/material";
 import { Main } from "../components/main";
-import { API_HOST } from "../utils/constants";
-import { Link } from "react-router-dom";
-import Joi from "joi";
+import { Link, useNavigate } from "react-router-dom";
+import { ModifyUserForm } from "../forms/modify-user-form";
+import { modifyUserSchema, validateField } from "../utils/joi-validation";
+import { modifyUserInfo } from "../api/put-modify-user-info";
 import { useCurrentUser } from "../hooks/use-current-user";
-import { tlds } from "@hapi/tlds";
-import { toast } from "sonner";
 
-const modifyUserSchema = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: tlds } })
-    .optional()
-    .allow("")
-    .messages({
-      "string.min": "El correo electrónico debe tener más de 4 caracteres.",
-      "string.max": "El correo electrónico debe tener menos de 100 caracteres.",
-    }),
-  username: Joi.string().min(4).max(100).optional().allow("").messages({
-    "string.min": "El nombre de usuario debe tener más de 4 caracteres.",
-    "string.max": "El nombre de usuario debe tener menos de 100 caracteres.",
-  }),
-  password: Joi.string().required().messages({
-    "string.empty":
-      "Por motivos de seguridad, es obligatorio que coloques tu contraseña.",
-    "any.required":
-      "Por motivos de seguridad, es obligatorio que coloques tu contraseña.",
-  }),
-  bio: Joi.string().min(4).max(255).optional().allow("").messages({
-    "string.min": "La biografía debe tener más de 4 caracteres.",
-    "string.max": "La biografía debe tener menos de 255 caracteres.",
-  }),
-  address: Joi.string().min(4).max(100).optional().allow("").messages({
-    "string.min": "La dirección debe tener más de 4 caracteres.",
-    "string.max": "La dirección debe tener menos de 100 caracteres.",
-  }),
-  profile_pic: Joi.any().optional().allow(""),
-});
-
-function ModifyUserPage() {
-  const user = useCurrentUser();
-
-  const token = localStorage.getItem("userToken");
-
+export function ModifyUserPage() {
+  const currentUser = useCurrentUser();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
+    username: "",
     bio: "",
     address: "",
     password: "",
   });
+
+  const [validationErrors, setValidationErrors] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,18 +25,15 @@ function ModifyUserPage() {
       ...formData,
       [name]: value,
     });
-  };
 
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      profile_pic: file,
+    const validationError = validateField(name, value, modifyUserSchema);
+    setValidationErrors({
+      ...validationErrors,
+      [name]: validationError,
     });
   };
 
-  const [validationErrors, setValidationErrors] = useState({});
-
+  console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -77,7 +42,6 @@ function ModifyUserPage() {
     });
 
     if (error) {
-      console.log("Validation failed:", error.details);
       const errors = {};
       error.details.forEach((detail) => {
         errors[detail.path[0]] = detail.message;
@@ -86,106 +50,44 @@ function ModifyUserPage() {
       return;
     }
 
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-      console.log(`Form Data: ${key} = ${value}`);
-    });
-
     try {
-      const response = await fetch(API_HOST + `/users/update/${user.id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `${token}`,
-        },
-        body: data,
-      });
+      const id = currentUser.id;
+      const { email, username, bio, address, password } = formData;
+      const hasDataToUpdate = email || username || bio || address;
 
-      if (response.ok) {
-        toast.success("Usuario actualizado con éxito");
-      } else {
-        toast.error("Error al actualizar el usuario");
-        console.error("Error:", response.statusText);
+      if (hasDataToUpdate) {
+        if (email || username || bio || address || password) {
+          await modifyUserInfo(id, email, username, bio, address, password);
+        }
       }
+      navigate("/");
     } catch (error) {
-      console.error("Error de conexión:", error);
+      console.error("Error al actualizar el usuario:", error);
     }
   };
 
   return (
     <Main>
-      <h1 className="text-4xl block self-center">Modificar usuario</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 md:px-44 lg:px-60 xl:px-96"
-      >
-        <TextField
-          label="Nombre de usuario"
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleInputChange}
-          error={Boolean(validationErrors.username)}
-          helperText={validationErrors.username}
-        />
-        <TextField
-          label="Correo electrónico"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          error={Boolean(validationErrors.email)}
-          helperText={validationErrors.email}
-        />
-        <TextareaAutosize
-          minRows={3}
-          placeholder="Biografía"
-          name="bio"
-          value={formData.bio}
-          onChange={handleInputChange}
-          className={validationErrors.bio ? "error" : ""}
-        />
-        <TextField
-          label="Dirección"
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleInputChange}
-          error={Boolean(validationErrors.address)}
-          helperText={validationErrors.address}
-        />
-        <Input
-          label="Foto de perfil"
-          type="file"
-          name="profile_pic"
-          onChange={handleProfilePicChange}
-        />
-        <TextField
-          label="Contraseña"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          error={Boolean(validationErrors.password)}
-          helperText={validationErrors.password}
-        />
-        <p className="flex justify-center gap-2">
-          Es obligatorio que coloques tu contraseña actual, si quieres cambiar
-          la contraseña
-          <Link
-            to="/users/recovery-password"
-            style={{ color: "var(--quaternary-color)" }}
-          >
-            haz click aqui
-          </Link>
-          .
-        </p>
-        <Button id="button" type="submit" variant="contained" color="primary">
-          Actualizar usuario
-        </Button>
-      </form>
+      <h1 className="text-4xl block self-center">Modifica tus datos</h1>
+      <p className="flex justify-center gap-2">
+        Modifica los datos que quieras. Por seguridad, es obligatorio que
+        coloques tu contraseña actual.
+      </p>
+      <ModifyUserForm
+        formData={formData}
+        handleInputChange={handleInputChange}
+        validationErrors={validationErrors}
+        handleSubmit={handleSubmit}
+      />
+      <p className="flex justify-center gap-2">
+        Si quieres cambiar la contraseña
+        <Link
+          to="/users/recovery-password"
+          style={{ color: "var(--quaternary-color)" }}
+        >
+          haz click aqui.
+        </Link>
+      </p>
     </Main>
   );
 }
-
-export default ModifyUserPage;

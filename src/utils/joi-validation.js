@@ -81,6 +81,35 @@ export const changePasswordSchema = Joi.object({
     }),
 });
 
+export const modifyUserSchema = Joi.object({
+  email: Joi.string()
+    .email({ tlds: { allow: tlds } })
+    .optional()
+    .allow("")
+    .messages({
+      "string.min": "El correo electrónico debe tener más de 4 caracteres.",
+      "string.max": "El correo electrónico debe tener menos de 100 caracteres.",
+    }),
+  username: Joi.string().min(4).max(100).optional().allow("").messages({
+    "string.min": "El nombre de usuario debe tener más de 4 caracteres.",
+    "string.max": "El nombre de usuario debe tener menos de 100 caracteres.",
+  }),
+  bio: Joi.string().min(4).max(255).optional().allow("").messages({
+    "string.min": "La biografía debe tener más de 4 caracteres.",
+    "string.max": "La biografía debe tener menos de 255 caracteres.",
+  }),
+  address: Joi.string().min(4).max(100).optional().allow("").messages({
+    "string.min": "La dirección debe tener más de 4 caracteres.",
+    "string.max": "La dirección debe tener menos de 100 caracteres.",
+  }),
+  password: Joi.string().required().messages({
+    "string.empty":
+      "Por motivos de seguridad, es obligatorio que coloques tu contraseña.",
+    "any.required":
+      "Por motivos de seguridad, es obligatorio que coloques tu contraseña.",
+  }),
+});
+
 export const validateField = (fieldName, value, schema) => {
   const joiSchema = Joi.object({
     [fieldName]: schema.extract(fieldName),
