@@ -2,16 +2,16 @@ import { API_HOST } from "../utils/constants";
 import { toast } from "sonner";
 
 export const modifyUserInfo = async (
-  id,
-  email,
-  username,
-  bio,
   address,
-  password
+  bio,
+  email,
+  password,
+  username,
+  id
 ) => {
   const token = localStorage.getItem("userToken");
 
-  const requestBody = { id, email, username, bio, address, password };
+  const requestBody = { address, bio, email, password, username, id };
   try {
     const response = await fetch(API_HOST + `/users/update/info/${id}`, {
       method: "PUT",

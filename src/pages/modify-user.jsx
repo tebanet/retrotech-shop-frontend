@@ -10,11 +10,18 @@ export function ModifyUserPage() {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
-    username: "",
-    bio: "",
+    id: "",
     address: "",
+    bio: "",
+    email: "",
     password: "",
+    username: "",
+  });
+
+  let keys = Object.keys(formData).sort();
+
+  keys.forEach(function (key) {
+    console.log(formData[key]);
   });
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -52,12 +59,12 @@ export function ModifyUserPage() {
 
     try {
       const id = currentUser.id;
-      const { email, username, bio, address, password } = formData;
-      const hasDataToUpdate = email || username || bio || address;
+      const { address, bio, email, password, username } = formData;
+      const hasDataToUpdate = bio || address || email || username;
 
       if (hasDataToUpdate) {
-        if (email || username || bio || address || password) {
-          await modifyUserInfo(id, email, username, bio, address, password);
+        if (address || bio || email || password || username) {
+          await modifyUserInfo(address, bio, email, password, username, id);
         }
       }
       navigate("/");
