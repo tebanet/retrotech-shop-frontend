@@ -160,5 +160,4 @@ export default function AccountMenu() {
       </Menu>
     </React.Fragment>
   );
->>>>>>> main
 }
