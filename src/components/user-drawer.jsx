@@ -15,15 +15,25 @@ import { ProfileButton } from "./profile-button";
 import { Divider } from "@mui/material";
 import { useLogout } from "../hooks/use-logout";
 import { useCurrentUser } from "../hooks/use-current-user";
+import { getUserData } from "../api/get-user-data";
 
 export default function UserDrawer() {
 	const [login, setLogin] = React.useState(false);
 
 	const currentUser = useCurrentUser();
 
+	const [userData, setUserData] = React.useState([]);
+	async function fetchUserData() {
+		const result = await getUserData(currentUser?.username);
+		if (result.status == "ok") {
+			setUserData(result.data);
+		}
+	}
+
 	React.useEffect(() => {
 		const isLoggedIn = currentUser !== null;
 		setLogin(isLoggedIn);
+		fetchUserData();
 	}, [currentUser]);
 	const logout = useLogout();
 
@@ -125,7 +135,7 @@ export default function UserDrawer() {
 				<React.Fragment key={anchor}>
 					<span className="flex flex-col items-center">
 						<ProfileButton
-							user={currentUser}
+							user={userData}
 							onClick={toggleDrawer(anchor, true)}
 						/>
 						<p>Perfil</p>
