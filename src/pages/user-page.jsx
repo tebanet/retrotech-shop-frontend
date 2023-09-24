@@ -47,11 +47,13 @@ export function UserPage() {
 		checkOwnership();
 	}, [username]);
 
+	console.log(userData);
+
 	return (
 		<Main>
 			<section className="flex">
 				<Avatar
-					sx={{ width: 56, height: 56 }}
+					sx={{ width: 56, height: 56, position: "static" }}
 					src={userData?.profile_pic}
 					alt={"foto de perfil de " + userData.username}
 				/>
