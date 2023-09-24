@@ -20,7 +20,6 @@ import { OrdersPage } from "./pages/user-orders-page";
 import { OffersPage } from "./pages/user-offers-page";
 
 function App() {
-<<<<<<< HEAD
 	return (
 		<AuthContextProvider>
 			<Toaster richColors position="top-center" />
@@ -47,40 +46,14 @@ function App() {
 				<Route path="/category">
 					<Route path=":category" element={<CategoryPage />} />
 				</Route>
-=======
-  return (
-    <AuthContextProvider>
-      <Toaster richColors position="top-center" />
-      <Header />
-      <Routes>
-        <Route index element={<IndexPage />} />
-        <Route path="/login" element={<LoginUserPage />} />
-        <Route path="/register" element={<NewUserPage />} />
-        <Route path="/users/">
-          <Route path=":username" element={<UserPage />} />
-          <Route path="validate" element={<ValidateUserPage />} />
-          <Route path="update" element={<ModifyUserPage />} />
-          <Route path="recovery-password" element={<PasswordResetRequest />} />
-          <Route path="change-password" element={<ChangePassword />} />
-          <Route path="alerts" element />
-        </Route>
-        <Route path="/products">
-          <Route path=":product_id" element={<ProductPage />} />
-          <Route path=":product_id/order" element={<OrderProductPage />} />
-          <Route path="new" element={<NewProduct />} />
-        </Route>
-        <Route path="/category">
-          <Route path=":category" element={<CategoryPage />} />
-        </Route>
->>>>>>> main
 
-        {/* SIEMPRE AL FINAL */}
-        <Route path="*" element={<NotFound />} />
-        {/* SIEMPRE AL FINAL */}
-      </Routes>
-      <BottomNavBar />
-    </AuthContextProvider>
-  );
+				{/* SIEMPRE AL FINAL */}
+				<Route path="*" element={<NotFound />} />
+				{/* SIEMPRE AL FINAL */}
+			</Routes>
+			<BottomNavBar />
+		</AuthContextProvider>
+	);
 }
 
 export default App;

@@ -12,36 +12,20 @@ export function ProfileButton({ user, onClick }) {
 		setLogin(isLoggedIn);
 	}, [currentUser]);
 
-<<<<<<< HEAD
 	return (
 		<button onClick={onClick}>
 			{login ? (
 				<Avatar
 					className="max-w-[1.5rem] max-h-[1.5rem]"
-					alt="user pfp"
-					src={user?.profile_pic}
+					alt="Foto de Perfil"
+					src={
+						user.profile_pic ||
+						API_HOST + "/profile_pics/default_profile_pic.webp"
+					}
 				/>
 			) : (
 				<AccountCircleOutlinedIcon />
 			)}
 		</button>
 	);
-=======
-  return (
-    <button onClick={onClick}>
-      {login ? (
-        <Avatar
-          className="max-w-[1.5rem] max-h-[1.5rem]"
-          alt="Foto de Perfil"
-          src={
-            user.profile_pic ||
-            API_HOST + "/profile_pics/default_profile_pic.webp"
-          }
-        />
-      ) : (
-        <AccountCircleOutlinedIcon />
-      )}
-    </button>
-  );
->>>>>>> main
 }
