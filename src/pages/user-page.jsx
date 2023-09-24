@@ -67,12 +67,12 @@ export function UserPage() {
 				<section className="flex gap-4 justify-around">
 					<Link to={"/users/" + username + "/orders"}>
 						<Button variant="contained" color="success" sx={{ width: "12rem" }}>
-							Ofertas
+							Mis pedidos
 						</Button>
 					</Link>
 					<Link to={"/users/" + username + "/offers"}>
 						<Button variant="contained" color="error" sx={{ width: "12rem" }}>
-							Pedidos
+							Mis ofertas
 						</Button>
 					</Link>
 				</section>
