@@ -3,35 +3,52 @@ import { useNavigate } from "react-router-dom";
 import { Main } from "../components/main";
 import { toast } from "sonner";
 import { changePassword } from "../api/post-change-password";
-import { changePasswordSchema } from "../utils/joi-validation";
+import { changePasswordSchema, validateField } from "../utils/joi-validation";
 import { ChangePasswordForm } from "../forms/change-password-form";
 import { useForm } from "../hooks/use-form";
 
 export function ChangePassword() {
   const navigate = useNavigate();
-  const { formData, handleChange } = useForm({
+  const [formData, setFormData] = useState({
     token: "",
     newPassword: "",
     repeatPassword: "",
   });
-  const [error, setError] = useState("");
+
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    const validationError = validateField(name, value, changePasswordSchema);
+    setValidationErrors({
+      ...validationErrors,
+      [name]: validationError,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { error: validationError } = changePasswordSchema.validate(formData, {
+    const { error } = changePasswordSchema.validate(formData, {
       abortEarly: false,
     });
 
-    if (validationError) {
-      setError(
-        validationError.details.map((detail) => detail.message).join(", ")
-      );
+    if (error) {
+      const errors = {};
+      error.details.forEach((detail) => {
+        errors[detail.path[0]] = detail.message;
+      });
+      setValidationErrors(errors);
       return;
     }
 
     if (formData.newPassword !== formData.repeatPassword) {
-      setError("Las contraseñas no coinciden.");
+      setValidationErrors("Las contraseñas no coinciden.");
       return;
     }
 
@@ -51,11 +68,11 @@ export function ChangePassword() {
       </h1>
       <ChangePasswordForm
         formData={formData}
-        handleChange={handleChange}
+        handleChange={handleInputChange}
         handleSubmit={handleSubmit}
-        error={error}
+        error={validationErrors}
       />
-      {error && <p className="error">{error}</p>}
+      {validationErrors && <p className="error">{validationErrors}</p>}
     </Main>
   );
 }

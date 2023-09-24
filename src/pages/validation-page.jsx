@@ -3,6 +3,7 @@ import { TextField, Button } from "@mui/material";
 import { Main } from "../components/main";
 import { useNavigate } from "react-router-dom";
 import { API_HOST } from "../utils/constants";
+import { toast } from "sonner";
 
 export function ValidateUserPage() {
   const navigate = useNavigate();
@@ -35,9 +36,9 @@ export function ValidateUserPage() {
 
       if (response.ok) {
         navigate("/login");
+        toast.success("Usuario validado correctamente.");
       } else {
-        console.error("Código inválido:", response.statusText);
-        setValidationError("Código Inválido. Por favor intenta nuevamente.");
+        toast.error("El código que has introducido no es válido.");
       }
     } catch (error) {
       console.error("Error de red:", error);
@@ -55,6 +56,7 @@ export function ValidateUserPage() {
         <TextField
           label="Código de Verificación"
           type="text"
+          name="verification-code"
           value={registrationCode}
           onChange={handleCodeChange}
           required

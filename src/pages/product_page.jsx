@@ -7,23 +7,28 @@ import { Button } from "@mui/material";
 import { useCurrentUser } from "../hooks/use-current-user";
 
 export function ProductPage() {
+<<<<<<< HEAD
 	const currentUser = useCurrentUser();
 	const [ownership, setOwnership] = useState(false);
 
 	const navigate = useNavigate();
+=======
+  const navigate = useNavigate();
+>>>>>>> main
 
-	let { product_id } = useParams();
-	const [productData, setProductData] = useState([]);
-	async function fetchProductData() {
-		const result = await getProductData(product_id);
-		if (result.status == "ok") {
-			setProductData(result.data);
-		} else {
-			navigate("/404");
-		}
-	}
-	const shortDate = dayjs(productData.createdAt).format("DD/MM/YYYY");
+  let { product_id } = useParams();
+  const [productData, setProductData] = useState([]);
+  async function fetchProductData() {
+    const result = await getProductData(product_id);
+    if (result.status == "ok") {
+      setProductData(result.data);
+    } else {
+      navigate("/404");
+    }
+  }
+  const shortDate = dayjs(productData.createdAt).format("DD/MM/YYYY");
 
+<<<<<<< HEAD
 	const checkOwnership = () => {
 		if (productData.username === currentUser?.username) {
 			setOwnership(true);
@@ -37,9 +42,15 @@ export function ProductPage() {
 	useEffect(() => {
 		fetchProductData();
 	}, [product_id]);
+=======
+  useEffect(() => {
+    fetchProductData();
+  }, []);
+>>>>>>> main
 
-	console.log(productData);
+  console.log(productData);
 
+<<<<<<< HEAD
 	return (
 		<Main>
 			<section className="flex justify-center">
@@ -79,4 +90,34 @@ export function ProductPage() {
 			</section>
 		</Main>
 	);
+=======
+  return (
+    <Main>
+      <section className="flex justify-center">
+        <img
+          className="max-w-[15rem]"
+          src={productData.product_image}
+          alt={"Foto de " + productData.product_title}
+        />
+      </section>
+      <Link
+        className="self-center"
+        to={"/products/" + productData.product_id + "/order"}
+      >
+        <Button variant="contained">¡Quiero comprarlo!</Button>
+      </Link>
+      <section className="flex flex-col pl-4">
+        <h1>
+          {productData.product_title} - {productData.price}€ -{" "}
+          {productData.category} - {productData.status}
+        </h1>
+        <h2>
+          Puesto a la venta: {shortDate} {productData.location}
+        </h2>
+        <h3>{productData.description}</h3>
+        <h4>{productData.username}</h4>
+      </section>
+    </Main>
+  );
+>>>>>>> main
 }

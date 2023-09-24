@@ -2,9 +2,9 @@ import { TextField, Button } from "@mui/material";
 
 export const ChangePasswordForm = ({
   formData,
-  handleChange,
+  handleInputChange,
   handleSubmit,
-  error,
+  validationErrors,
 }) => (
   <form
     onSubmit={handleSubmit}
@@ -14,24 +14,32 @@ export const ChangePasswordForm = ({
       label="Código de recuperación"
       name="token"
       type="text"
-      value={formData.token}
-      onChange={handleChange}
+      value={formData}
+      onChange={handleInputChange}
+      error={Boolean(validationErrors)}
+      helperText={validationErrors}
       required
     />
     <TextField
       label="Nueva Contraseña"
       name="newPassword"
       type="password"
-      value={formData.newPassword}
-      onChange={handleChange}
+      autoComplete="new-password"
+      value={formData}
+      onChange={handleInputChange}
+      error={Boolean(validationErrors)}
+      helperText={validationErrors}
       required
     />
     <TextField
       label="Repetir Contraseña"
       name="repeatPassword"
       type="password"
-      value={formData.repeatPassword}
-      onChange={handleChange}
+      autoComplete="new-password"
+      value={formData}
+      onChange={handleInputChange}
+      error={Boolean(validationErrors)}
+      helperText={validationErrors}
       required
     />
     <Button type="submit" variant="contained" color="primary">

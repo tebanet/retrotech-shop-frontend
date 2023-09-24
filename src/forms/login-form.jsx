@@ -11,9 +11,10 @@ export const LoginForm = ({
     className="flex flex-col gap-4 md:px-44 lg:px-60 xl:px-96"
   >
     <TextField
-      label="Correo Electrónico"
+      label="Correo electrónico"
       type="email"
       name="email"
+      autoComplete="email"
       value={formData.email}
       onChange={handleInputChange}
       required
@@ -24,6 +25,7 @@ export const LoginForm = ({
       label="Contraseña"
       type="password"
       name="password"
+      autoComplete="current-password"
       value={formData.password}
       onChange={handleInputChange}
       required

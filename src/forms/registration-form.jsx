@@ -1,5 +1,4 @@
 import { TextField, Button } from "@mui/material";
-import { validateField } from "../utils/joi-validation";
 
 export const RegistrationForm = ({
   formData,
@@ -12,9 +11,10 @@ export const RegistrationForm = ({
     className="flex flex-col gap-4 md:px-44 lg:px-60 xl:px-96"
   >
     <TextField
-      label="Email"
+      label="Correo electrónico"
       type="email"
       name="email"
+      autoComplete="email"
       value={formData.email}
       onChange={handleInputChange}
       required
@@ -22,8 +22,9 @@ export const RegistrationForm = ({
       helperText={validationErrors.email}
     />
     <TextField
-      label="Username"
+      label="Nombre de usuario"
       name="username"
+      autoComplete="username"
       value={formData.username}
       onChange={handleInputChange}
       required
@@ -31,9 +32,10 @@ export const RegistrationForm = ({
       helperText={validationErrors.username}
     />
     <TextField
-      label="Password"
+      label="Contraseña"
       type="password"
       name="password"
+      autoComplete="new-password"
       value={formData.password}
       onChange={handleInputChange}
       required

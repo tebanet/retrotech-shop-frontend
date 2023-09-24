@@ -23,7 +23,7 @@ export function NewUserPage() {
       [name]: value,
     });
 
-    const validationError = validateField(name, value);
+    const validationError = validateField(name, value, newUserSchema);
     setValidationErrors({
       ...validationErrors,
       [name]: validationError,
@@ -33,7 +33,9 @@ export function NewUserPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { error } = newUserSchema.validate(formData, { abortEarly: false });
+    const { error } = newUserSchema.validate(formData, {
+      abortEarly: false,
+    });
 
     if (error) {
       const errors = {};
@@ -41,7 +43,7 @@ export function NewUserPage() {
         errors[detail.path[0]] = detail.message;
       });
       setValidationErrors(errors);
-      console.error("Error de validación:", error.details);
+      console.error("Error de validación:", errors.details);
       return;
     }
 

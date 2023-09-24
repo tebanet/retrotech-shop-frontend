@@ -16,10 +16,11 @@ export const registerUser = async (email, username, password) => {
       return true;
     } else {
       toast.error("El registro de usuario ha fallado");
-      return false;
+      console.error(response.statusText);
+      return null;
     }
   } catch (error) {
     console.error("Ha ocurrido un error:", error);
-    return false;
+    return null;
   }
 };

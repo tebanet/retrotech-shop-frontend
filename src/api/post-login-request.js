@@ -21,7 +21,7 @@ export const loginUser = async (email, password) => {
       return null;
     }
   } catch (error) {
-    console.error("Network error:", error);
+    console.error("Ha ocurrido un error:", error);
     return null;
   }
 };
