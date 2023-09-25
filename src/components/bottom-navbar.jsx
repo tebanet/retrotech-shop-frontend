@@ -1,12 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import UserDrawer from "./user-drawer.jsx";
 import { Badge } from "@mui/material";
+import { useCurrentUser } from "../hooks/use-current-user.js";
+import { useEffect, useState } from "react";
+import { getUnratedOrders } from "../api/get-unrated-orders.js";
 
 export function BottomNavBar() {
+	const location = useLocation();
+	const currentUser = useCurrentUser();
+	const [unrated, setUnrated] = useState([]);
+	async function getUnrated() {
+		const result = await getUnratedOrders(currentUser.username);
+		if (result.status == "ok") {
+			setUnrated(result.data);
+		}
+	}
+
+	useEffect(() => {
+		getUnrated();
+	}, [location]);
+
 	return (
 		<nav className="bg-[var(--secondary-color)] fixed bottom-0 right-0 left-0 border-t border-t-black lg:hidden">
 			<ul className="flex justify-around min-h-[4rem] items-center">
@@ -29,11 +46,18 @@ export function BottomNavBar() {
 					</Link>
 				</li>
 				<li className="w-1/5">
-					<Link to="/users/alerts" className="flex flex-col items-center">
-						<Badge badgeContent={1} variant="dot" color="error">
-							<MailOutlineIcon />
+					<Link
+						to={"/users/" + currentUser?.username + "/orders/rate"}
+						className="flex flex-col items-center"
+					>
+						<Badge
+							badgeContent={Object.keys(unrated).length}
+							variant="dot"
+							color="error"
+						>
+							<GradeOutlinedIcon />
 						</Badge>
-						Alertas
+						Valorar
 					</Link>
 				</li>
 				<li className="w-1/5">

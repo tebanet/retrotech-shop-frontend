@@ -18,6 +18,8 @@ import { NewProduct } from "./pages/new-product-page";
 import { OrderProductPage } from "./pages/order-product-page";
 import { OrdersPage } from "./pages/user-orders-page";
 import { OffersPage } from "./pages/user-offers-page";
+import { OrdersWithoutRate } from "./pages/order-without-rate-page";
+import { RateOrder } from "./pages/rate-order-page";
 
 function App() {
 	return (
@@ -31,6 +33,11 @@ function App() {
 				<Route path="/users/">
 					<Route path=":username" element={<UserPage />} />
 					<Route path=":username/orders" element={<OrdersPage />} />
+					<Route path=":username/orders/rate" element={<OrdersWithoutRate />} />
+					<Route
+						path=":username/orders/rate/:orderId"
+						element={<RateOrder />}
+					/>
 					<Route path=":username/offers" element={<OffersPage />} />
 					<Route path="validate" element={<ValidateUserPage />} />
 					<Route path="update" element={<ModifyUserPage />} />
