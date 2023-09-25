@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { Main } from "../components/main";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { API_HOST } from "../utils/constants";
 import { toast } from "sonner";
 
 export function ValidateUserPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [registrationCode, setCode] = useState("");
   const [validationError, setValidationError] = useState("");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const codeFromQuery = searchParams.get("registrationCode");
+
+    if (codeFromQuery) {
+      setCode(codeFromQuery);
+    }
+  }, [location.search]);
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
@@ -30,7 +40,7 @@ export function ValidateUserPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          header: JSON.stringify({ registrationCode }),
+          // header: JSON.stringify({ registrationCode }),
         }
       );
 

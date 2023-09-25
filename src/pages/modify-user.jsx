@@ -15,6 +15,7 @@ export function ModifyUserPage() {
     bio: "",
     address: "",
     password: "",
+    id: "",
   });
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -33,7 +34,6 @@ export function ModifyUserPage() {
     });
   };
 
-  console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,14 +53,14 @@ export function ModifyUserPage() {
     try {
       const id = currentUser.id;
       const { email, username, bio, address, password } = formData;
-      const hasDataToUpdate = email || username || bio || address;
+      const hasDataToUpdate = email || username || bio || address || password;
 
       if (hasDataToUpdate) {
         if (email || username || bio || address || password) {
-          await modifyUserInfo(id, email, username, bio, address, password);
+          await modifyUserInfo(email, username, bio, address, password, id);
         }
       }
-      navigate("/");
+      navigate(`/users/${username}`); // que pasa si el usuairo camvia el usename??
     } catch (error) {
       console.error("Error al actualizar el usuario:", error);
     }
