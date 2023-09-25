@@ -15,6 +15,7 @@ export function ChangePassword() {
     repeatPassword: "",
   });
   const [validationErrors, setValidationErrors] = useState({});
+  const [comparisonError, setComparisonError] = useState("");
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -46,10 +47,7 @@ export function ChangePassword() {
     e.preventDefault();
 
     if (formData.newPassword !== formData.repeatPassword) {
-      setValidationErrors((prevErrors) => ({
-        ...prevErrors,
-        repeatPassword: "Las contraseñas no coinciden.",
-      }));
+      setComparisonError("Por favor, revisa que las contraseñas sean iguales.");
       return;
     }
 
@@ -67,7 +65,7 @@ export function ChangePassword() {
     }
 
     const response = await changePassword(formData);
-    if (response.ok) {
+    if (response.ok === true) {
       toast.success("La contraseña se ha cambiado con éxito.");
       navigate("/login");
     } else {
@@ -83,10 +81,8 @@ export function ChangePassword() {
         handleInputChange={handleInputChange}
         validationErrors={validationErrors}
         handleSubmit={handleSubmit}
+        comparisonError={comparisonError}
       />
-      {validationErrors.repeatPassword && (
-        <p className="error">{validationErrors.repeatPassword}</p>
-      )}
     </Main>
   );
 }

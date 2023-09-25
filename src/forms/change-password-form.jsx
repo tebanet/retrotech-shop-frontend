@@ -5,6 +5,7 @@ export const ChangePasswordForm = ({
   handleSubmit,
   handleInputChange,
   validationErrors,
+  comparisonError,
 }) => (
   <form
     onSubmit={handleSubmit}
@@ -42,6 +43,9 @@ export const ChangePasswordForm = ({
       helperText={validationErrors.repeatPassword}
       required
     />
+    {comparisonError && (
+      <p className="error text-center text-red-500">{comparisonError}</p>
+    )}
     <Button type="submit" variant="contained" color="primary">
       Cambiar Contraseña
     </Button>

@@ -10,12 +10,19 @@ export const changePassword = async (formData) => {
       body: JSON.stringify(formData),
     });
 
+    console.log(response);
     if (response.ok) {
+      // const data = await response.json();
+      // if (data.status === "ok") {
       return true;
+      // } else {
+      //   return false;
+      // }
     } else {
       return false;
     }
   } catch (error) {
     console.error("Error:", error);
+    return false;
   }
 };
