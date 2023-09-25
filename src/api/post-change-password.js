@@ -2,7 +2,7 @@ import { API_HOST } from "../utils/constants";
 
 export const changePassword = async (formData) => {
   try {
-    const response = await fetch(API_HOST + "/users/change-password", {
+    const response = await fetch(API_HOST + `/users/change-password/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
