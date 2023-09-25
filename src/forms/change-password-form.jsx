@@ -2,9 +2,10 @@ import { TextField, Button } from "@mui/material";
 
 export const ChangePasswordForm = ({
   formData,
-  handleInputChange,
   handleSubmit,
+  handleInputChange,
   validationErrors,
+  comparisonError,
 }) => (
   <form
     onSubmit={handleSubmit}
@@ -14,10 +15,10 @@ export const ChangePasswordForm = ({
       label="Código de recuperación"
       name="token"
       type="text"
-      value={formData}
+      value={formData.token}
       onChange={handleInputChange}
-      error={Boolean(validationErrors)}
-      helperText={validationErrors}
+      error={Boolean(validationErrors.token)}
+      helperText={validationErrors.token}
       required
     />
     <TextField
@@ -25,10 +26,10 @@ export const ChangePasswordForm = ({
       name="newPassword"
       type="password"
       autoComplete="new-password"
-      value={formData}
+      value={formData.newPassword}
       onChange={handleInputChange}
-      error={Boolean(validationErrors)}
-      helperText={validationErrors}
+      error={Boolean(validationErrors.newPassword)}
+      helperText={validationErrors.newPassword}
       required
     />
     <TextField
@@ -36,12 +37,15 @@ export const ChangePasswordForm = ({
       name="repeatPassword"
       type="password"
       autoComplete="new-password"
-      value={formData}
+      value={formData.repeatPassword}
       onChange={handleInputChange}
-      error={Boolean(validationErrors)}
-      helperText={validationErrors}
+      error={Boolean(validationErrors.repeatPassword)}
+      helperText={validationErrors.repeatPassword}
       required
     />
+    {comparisonError && (
+      <p className="error text-center text-red-500">{comparisonError}</p>
+    )}
     <Button type="submit" variant="contained" color="primary">
       Cambiar Contraseña
     </Button>
