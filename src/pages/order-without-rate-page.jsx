@@ -1,11 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Main } from "../components/main";
 import { useEffect, useState } from "react";
-import { OrderCard } from "../components/order-card";
 import { getUnratedOrders } from "../api/get-unrated-orders";
 import { RateOrderCard } from "../components/rate-order-card";
 
-export function RateOrdersPage() {
+export function OrdersWithoutRate() {
 	const navigate = useNavigate();
 	let { username } = useParams();
 

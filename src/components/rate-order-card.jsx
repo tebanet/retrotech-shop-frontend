@@ -1,32 +1,33 @@
 import dayjs from "dayjs";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { OrderStatus } from "../utils/order-status";
+import { Button } from "@mui/material";
 
 export function RateOrderCard({ order }) {
 	const shortDate = dayjs(order.order_date).format("DD/MM/YYYY");
+	let { username } = useParams();
 
 	console.log(order);
 
 	return (
-		<article className="flex border border-black rounded-xl gap-10">
+		<article className="flex flex-wrap justify-center border border-black rounded-xl">
 			<section>
 				<Link to={"/products/" + order.id_product}>
-					{/* <img
+					<img
 						className="max-w-[5rem] rounded-xl"
-						src={"http://localhost:3000/uploads/" + order.product_image}
+						src={order.product_image}
 						alt={"image of " + order.product_title}
-					/> */}
-					Enlace a producto :)
+					/>
 				</Link>
 			</section>
-			<section className="flex flex-col justify-between">
+			<section className="flex flex-col justify-between mx-[2.70rem]">
 				<section className="flex justify-between min-w-[15rem]">
 					<b>{order.product_title}</b>
 					<p>{shortDate}</p>
 				</section>
 				<section className="flex justify-between min-w-[15rem]">
 					<p>
-						<Link to={"/users/" + order.seller}>{order.seller}</Link>
+						<Link to={"/users/" + order.username}>{order.username}</Link>
 					</p>
 
 					<p>
@@ -36,6 +37,13 @@ export function RateOrderCard({ order }) {
 				<section className="flex justify-center min-w-[15rem]">
 					<p className="text-green-500">{order.price}€</p>
 				</section>
+			</section>
+			<section className="py-1 gap-2 flex flex-col items-center">
+				<Link to={"/users/" + username + "/orders/rate/" + order.order_id}>
+					<Button variant="contained" color="success">
+						Enviar valoración
+					</Button>
+				</Link>
 			</section>
 		</article>
 	);

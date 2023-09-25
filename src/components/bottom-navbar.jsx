@@ -51,7 +51,7 @@ export function BottomNavBar() {
 						className="flex flex-col items-center"
 					>
 						<Badge
-							badgeContent={unrated[0]?.unrated_orders}
+							badgeContent={Object.keys(unrated).length}
 							variant="dot"
 							color="error"
 						>

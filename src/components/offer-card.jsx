@@ -11,6 +11,8 @@ export function OfferCard({ offer }) {
 	let { username } = useParams();
 	const shortDate = dayjs(offer.order_date).format("DD/MM/YYYY");
 
+	console.log(offer);
+
 	const [status, setStatus] = useState(false);
 	function checkStatus() {
 		if (offer?.order_status == "pending") {
@@ -42,7 +44,7 @@ export function OfferCard({ offer }) {
 				<Link to={"/products/" + offer.product_id}>
 					<img
 						className="max-w-[5rem] rounded-xl"
-						src={"http://localhost:3000/uploads/" + offer.product_image}
+						src={offer.product_image}
 						alt={"image of " + offer.product_tite}
 					/>
 				</Link>

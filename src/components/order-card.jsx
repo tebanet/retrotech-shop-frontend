@@ -11,7 +11,7 @@ export function OrderCard({ order }) {
 				<Link to={"/products/" + order.product_id}>
 					<img
 						className="max-w-[5rem] rounded-xl"
-						src={"http://localhost:3000/uploads/" + order.product_image}
+						src={order.product_image}
 						alt={"image of " + order.product_tite}
 					/>
 				</Link>
