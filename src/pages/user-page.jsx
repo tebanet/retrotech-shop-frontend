@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getUserData } from "../api/get-user-data";
-import { Avatar } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Avatar, Button } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { ProductCard } from "../components/product-card";
 import { getUserProducts } from "../api/get-all-products-by-username";
