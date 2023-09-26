@@ -38,8 +38,6 @@ export function ProductPage() {
 		fetchProductData();
 	}, [product_id]);
 
-	console.log(productData);
-
 	return (
 		<Main>
 			<section className="flex justify-center">

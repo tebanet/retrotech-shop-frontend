@@ -21,10 +21,11 @@ export default function UserDrawer() {
 	const [login, setLogin] = React.useState(false);
 
 	const currentUser = useCurrentUser();
+	const username = currentUser?.username;
 
 	const [userData, setUserData] = React.useState([]);
 	async function fetchUserData() {
-		const result = await getUserData(currentUser?.username);
+		const result = await getUserData(username);
 		if (result.status == "ok") {
 			setUserData(result.data);
 		}
@@ -34,7 +35,8 @@ export default function UserDrawer() {
 		const isLoggedIn = currentUser !== null;
 		setLogin(isLoggedIn);
 		fetchUserData();
-	}, [currentUser]);
+	}, [username]);
+
 	const logout = useLogout();
 
 	const [state, setState] = React.useState({
@@ -61,7 +63,7 @@ export default function UserDrawer() {
 		>
 			{login ? (
 				<List>
-					<Link to={"/users/" + currentUser?.username}>
+					<Link to={"/users/" + username}>
 						<ListItem disablePadding>
 							<ListItemButton>
 								<ListItemIcon>
