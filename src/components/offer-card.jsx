@@ -11,8 +11,6 @@ export function OfferCard({ offer }) {
 	let { username } = useParams();
 	const shortDate = dayjs(offer.order_date).format("DD/MM/YYYY");
 
-	console.log(offer);
-
 	const [status, setStatus] = useState(false);
 	function checkStatus() {
 		if (offer?.order_status == "pending") {

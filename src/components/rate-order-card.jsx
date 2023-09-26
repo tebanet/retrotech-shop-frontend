@@ -7,8 +7,6 @@ export function RateOrderCard({ order }) {
 	const shortDate = dayjs(order.order_date).format("DD/MM/YYYY");
 	let { username } = useParams();
 
-	console.log(order);
-
 	return (
 		<article className="flex flex-wrap justify-center border border-black rounded-xl">
 			<section>
@@ -30,9 +28,9 @@ export function RateOrderCard({ order }) {
 						<Link to={"/users/" + order.username}>{order.username}</Link>
 					</p>
 
-					<p>
+					<span>
 						<OrderStatus order={order} />
-					</p>
+					</span>
 				</section>
 				<section className="flex justify-center min-w-[15rem]">
 					<p className="text-green-500">{order.price}€</p>

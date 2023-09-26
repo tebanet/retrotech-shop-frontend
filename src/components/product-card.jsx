@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { API_HOST } from "../utils/constants";
 
 export function ProductCard({ product }) {
 	return (
