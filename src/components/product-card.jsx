@@ -14,7 +14,6 @@ export function ProductCard({ product }) {
 				<p className="text-[var(--quaternary-color)]">
 					{product.product_title}
 				</p>
-				<p className="text-[var(--quaternary-color)]">{product.category}</p>
 			</section>
 		</article>
 	);
