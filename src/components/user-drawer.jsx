@@ -10,6 +10,7 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { ProfileButton } from "./profile-button";
 import { Divider } from "@mui/material";
@@ -136,11 +137,22 @@ export default function UserDrawer() {
 			{["bottom"].map((anchor) => (
 				<React.Fragment key={anchor}>
 					<span className="flex flex-col items-center">
-						<ProfileButton
-							user={userData}
-							onClick={toggleDrawer(anchor, true)}
-						/>
-						<p>Perfil</p>
+						{login ? (
+							<>
+								<ProfileButton
+									user={userData}
+									onClick={toggleDrawer(anchor, true)}
+								/>
+								<p>Perfil</p>
+							</>
+						) : (
+							<>
+								<AccountCircleOutlinedIcon
+									onClick={toggleDrawer(anchor, true)}
+								/>
+								<p>Cuenta</p>
+							</>
+						)}
 					</span>
 					<Drawer
 						anchor={anchor}

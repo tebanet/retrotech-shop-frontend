@@ -26,7 +26,7 @@ export function CategoryPage() {
 	return (
 		<Main>
 			<h2 className="text-2xl">{category}</h2>
-			<ul className="flex flex-row flex-wrap justify-around gap-8 md:flex-nowrap md:overflow-x-scroll">
+			<ul className="flex flex-row flex-wrap justify-around gap-8">
 				{products.map((product) => {
 					return (
 						<li key={product.product_id}>
