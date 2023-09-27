@@ -4,7 +4,7 @@ import AccountMenu from "./account-menu";
 export function Header() {
 	return (
 		<>
-			<header className="flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0 lg:hidden">
+			<header className="flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0 lg:hidden z-10">
 				<Link to="/">
 					<img
 						src="/assets/logos/RT_Square_Logo.png"
@@ -13,7 +13,7 @@ export function Header() {
 					/>
 				</Link>
 			</header>
-			<header className="hidden lg:flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0">
+			<header className="hidden lg:flex flex-row items-center justify-between bg-[var(--secondary-color)] border-b border-b-black min-h-[4rem] px-4 gap-4 fixed right-0 left-0 z-10">
 				<Link to="/">
 					<img
 						src="/assets/logos/RT_Line_Logo.png"
