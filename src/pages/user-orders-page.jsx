@@ -20,8 +20,6 @@ export function OrdersPage() {
 		}
 	}
 
-	console.log(userOrders);
-
 	useEffect(() => {
 		fetchUserOrders();
 	}, [username]);

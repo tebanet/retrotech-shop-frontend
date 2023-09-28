@@ -12,9 +12,10 @@ import { getUnratedOrders } from "../api/get-unrated-orders.js";
 export function BottomNavBar() {
 	const location = useLocation();
 	const currentUser = useCurrentUser();
+	const username = currentUser?.username;
 	const [unrated, setUnrated] = useState([]);
 	async function getUnrated() {
-		const result = await getUnratedOrders(currentUser.username);
+		const result = await getUnratedOrders(username);
 		if (result.status == "ok") {
 			setUnrated(result.data);
 		}

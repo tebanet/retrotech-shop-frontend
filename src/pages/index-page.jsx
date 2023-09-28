@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import { Main } from "../components/main";
 import { ProductCard } from "../components/product-card";
 import { useEffect, useState } from "react";
@@ -25,21 +24,27 @@ export function IndexPage() {
 
   return (
     <Main>
-      <nav className="grid grid-cols-2 grid-rows-2 gap-4 md:flex md:justify-around">
-        <Link className="flex flex-col items-center" to="/category/accessories">
+      <nav className="grid grid-cols-4 gap-4 md:flex md:justify-around">
+        <Link
+          className="flex flex-col items-center max-w-[100%]"
+          to="/category/accessories"
+        >
           <HeadphonesOutlinedIcon fontSize="large" /> Accesorios
         </Link>
-        <Link className="flex flex-col items-center" to="/category/pc">
+        <Link
+          className="flex flex-col items-center max-w-[100%]"
+          to="/category/pc"
+        >
           <ComputerOutlinedIcon fontSize="large" /> Ordenadores
         </Link>
         <Link
-          className="flex flex-col items-center row-start-2"
+          className="flex flex-col items-center max-w-[100%]"
           to="/category/photography"
         >
           <CameraAltOutlinedIcon fontSize="large" /> Fotografia
         </Link>
         <Link
-          className="flex flex-col items-center row-start-2"
+          className="flex flex-col items-center max-w-[100%]"
           to="/category/videogame"
         >
           <VideogameAssetOutlinedIcon fontSize="large" /> Videojuegos

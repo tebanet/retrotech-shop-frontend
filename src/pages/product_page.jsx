@@ -70,8 +70,6 @@ export function ProductPage() {
     fetchProductData();
   }, [product_id]);
 
-  console.log(productData);
-
   return (
     <Main>
       <section className="bg-gray-100 py-8">

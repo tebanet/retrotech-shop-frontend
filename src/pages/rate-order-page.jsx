@@ -51,8 +51,6 @@ export function RateOrder() {
 		}
 	};
 
-	console.log(order);
-
 	useEffect(() => {
 		fetchUserOrders();
 	}, []);

@@ -20,6 +20,7 @@ import { OrdersPage } from "./pages/user-orders-page";
 import { OffersPage } from "./pages/user-offers-page";
 import { OrdersWithoutRate } from "./pages/order-without-rate-page";
 import { RateOrder } from "./pages/rate-order-page";
+import { SearchPage } from "./pages/search-page";
 
 function App() {
 	return (
@@ -53,6 +54,7 @@ function App() {
 				<Route path="/category">
 					<Route path=":category" element={<CategoryPage />} />
 				</Route>
+				<Route path="/search" element={<SearchPage />} />
 
 				{/* SIEMPRE AL FINAL */}
 				<Route path="*" element={<NotFound />} />
