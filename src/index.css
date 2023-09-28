@@ -5,9 +5,23 @@
 
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
+
+:root {
+  --body-font-family: "IBM Plex Sans", sans-serif;
+  --header-font-family: "IBM Plex Sans Condensed", sans-serif;
+  --primary-color: #ecf8f9; /* Fondo */
+  --secondary-color: #068da9; /* Menus */
+  --tertiary-color: #7e1717; /* Componentes */
+  --quaternary-color: #e55807; /* Textos */
+}
 * {
   scrollbar-width: thin;
   scrollbar-color: #999999 #ffffff;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 /* Chrome, Edge, and Safari */
@@ -18,30 +32,11 @@
 *::-webkit-scrollbar-track {
   background: transparent;
 }
-
 *::-webkit-scrollbar-thumb {
   background-color: #999999;
   border-radius: 8px;
   border: 4px solid var(--primary-color);
 }
-
-:root {
-  --body-font-family: "Poppins", sans-serif;
-  --header-font-family: "Montserrat", sans-serif;
-  --primary-color: #ecf8f9; /* Fondo */
-  --secondary-color: #068da9; /* Menus */
-  --tertiary-color: #7e1717; /* Componentes */
-  --quaternary-color: #e55807; /* Textos */
-}
-
-* {
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: var(--body-font-family);
   background-color: var(--primary-color);
@@ -53,6 +48,12 @@ div#root {
   min-width: 320px;
 }
 
-h1 {
+h1 h2 h3 h4 {
   font-family: var(--header-font-family);
+}
+
+@layer base {
+  html {
+    font-family: IBM Plex Sans, sans-serif;
+  }
 }

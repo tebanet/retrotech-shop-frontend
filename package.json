@@ -27,7 +27,8 @@
     "react-router-dom": "^6.15.0",
     "sonner": "^0.7.3",
     "styled-components": "^5.3.11",
-    "tlds": "^1.242.0"
+    "tlds": "^1.242.0",
+    "tw-elements": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

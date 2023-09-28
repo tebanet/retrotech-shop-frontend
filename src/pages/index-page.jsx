@@ -25,7 +25,7 @@ export function IndexPage() {
 
   return (
     <Main>
-      <nav className="grid grid-cols-4 gap-4 md:flex md:justify-around">
+      <nav className="grid grid-cols-4 gap-4 md:flex md:justify-around py-2">
         <Link
           className="flex flex-col items-center max-w-[100%]"
           to="/category/accessories"
@@ -51,12 +51,11 @@ export function IndexPage() {
           <VideogameAssetOutlinedIcon fontSize="large" /> Videojuegos
         </Link>
       </nav>
-      <h1 className="text-center p-7 text-3xl mb-2">
-        <strong>Revive la nostalgia, </strong>redescubre la tecnología!
+      <h1 className="text-center p-3 text-3xl mt-7 mb-2">
+        <strong>Revive la nostalgia,</strong> redescubre la tecnología!
       </h1>
-
       <section>
-        <ul className="w-fit mx-auto grid grid-cols-1 xl:grid-cold-auto lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+        <ul className="w-full mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-20 gap-x-20 mt-7 mb-5">
           {products.map((product) => {
             return (
               <li key={product.product_id}>
