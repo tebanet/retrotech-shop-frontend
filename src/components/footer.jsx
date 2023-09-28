@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 
 export function Footer() {
-  const [isFooterCollapsed, setIsFooterCollapsed] = useState(false);
+  const [isFooterCollapsed, setIsFooterCollapsed] = useState(true);
 
   const handleFooterToggle = () => {
     setIsFooterCollapsed(!isFooterCollapsed);
