@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import { Main } from "../components/main";
 import { ProductCard } from "../components/product-card";
 import { useEffect, useState } from "react";
@@ -50,11 +51,9 @@ export function IndexPage() {
           <VideogameAssetOutlinedIcon fontSize="large" /> Videojuegos
         </Link>
       </nav>
-      <section className="text-center p-7">
-        <h1 className="text-3xl mb-2">
-          <strong>Revive la nostalgia, </strong>redescubre la tecnología!
-        </h1>
-      </section>
+      <h1 className="text-center p-7 text-3xl mb-2">
+        <strong>Revive la nostalgia, </strong>redescubre la tecnología!
+      </h1>
 
       <section>
         <ul className="w-fit mx-auto grid grid-cols-1 xl:grid-cold-auto lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
