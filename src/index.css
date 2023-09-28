@@ -5,13 +5,13 @@
 
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
-* {
+/* * {
 	scrollbar-width: thin;
 	scrollbar-color: #999999 #ffffff;
-}
+} */
 
 /* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
 	width: 12px;
 }
 
@@ -23,6 +23,10 @@
 	background-color: #999999;
 	border-radius: 8px;
 	border: 4px solid var(--primary-color);
+} */
+
+::-webkit-scrollbar {
+	display: none;
 }
 
 :root {

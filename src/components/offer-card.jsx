@@ -17,17 +17,18 @@ export function OfferCard({ offer }) {
 			setStatus(true);
 		}
 	}
+	console.log(offer);
 
 	function acceptOffer() {
 		const status = "accepted";
-		patchOffer(username, offer.orderId, status);
+		patchOffer(username, offer.order_id, status);
 		toast.success("Pedido aceptado 🤑");
 		navigate("/users/" + username);
 	}
 
 	function rejectOffer() {
 		const status = "rejected";
-		patchOffer(username, offer.orderId, status);
+		patchOffer(username, offer.order_id, status);
 		toast.success("Pedido rechazado 😭");
 		navigate("/users/" + username);
 	}

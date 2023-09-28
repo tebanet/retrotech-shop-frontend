@@ -10,16 +10,21 @@ import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useLogout } from "../hooks/use-logout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../hooks/use-current-user";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 import AddBusinessOutlinedIcon from "@mui/icons-material/AddBusinessOutlined";
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import { API_HOST } from "../utils/constants";
+import { getUnratedOrders } from "../api/get-unrated-orders";
+import { Badge } from "@mui/material";
 
 export default function AccountMenu() {
 	const currentUser = useCurrentUser();
+	const username = currentUser?.username;
+	const location = useLocation();
 	const [login, setLogin] = React.useState(false);
 	const logout = useLogout();
 	const navigate = useNavigate();
@@ -38,10 +43,22 @@ export default function AccountMenu() {
 		setAnchorEl(null);
 	};
 
+	const [unrated, setUnrated] = React.useState([]);
+	async function getUnrated() {
+		const result = await getUnratedOrders(username);
+		if (result.status == "ok") {
+			setUnrated(result.data);
+		}
+	}
+
+	React.useEffect(() => {
+		getUnrated();
+	}, [location]);
+
 	return (
 		<React.Fragment>
 			<Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-				<Tooltip title="Account settings">
+				<Tooltip title="Ajuste de cuentas">
 					<IconButton
 						onClick={handleClick}
 						size="small"
@@ -51,13 +68,19 @@ export default function AccountMenu() {
 						aria-expanded={open ? "true" : undefined}
 					>
 						{login ? (
-							<Avatar
-								alt="user pfp"
-								src={
-									currentUser?.profile_pic ||
-									API_HOST + "/profile_pics/default_profile_pic.webp"
-								}
-							/>
+							<Badge
+								badgeContent={Object.keys(unrated).length}
+								variant="dot"
+								color="error"
+							>
+								<Avatar
+									alt="user pfp"
+									src={
+										currentUser?.profile_pic ||
+										API_HOST + "/profile_pics/default_profile_pic.webp"
+									}
+								/>
+							</Badge>
 						) : (
 							<Avatar />
 						)}
@@ -115,6 +138,20 @@ export default function AccountMenu() {
 									<AddBusinessOutlinedIcon />
 								</ListItemIcon>
 								Añadir producto
+							</MenuItem>
+						</Link>
+						<Link to={"/users/" + username + "/orders/rate"}>
+							<MenuItem onClick={handleClose}>
+								<ListItemIcon>
+									<Badge
+										badgeContent={Object.keys(unrated).length}
+										variant="dot"
+										color="error"
+									>
+										<GradeOutlinedIcon />
+									</Badge>
+								</ListItemIcon>
+								Valorar
 							</MenuItem>
 						</Link>
 						<Divider />

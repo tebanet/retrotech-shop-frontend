@@ -9,6 +9,7 @@ import { useCurrentUser } from "../hooks/use-current-user";
 export function ProductPage() {
 	const currentUser = useCurrentUser();
 	const [ownership, setOwnership] = useState(false);
+	const [sold, setSold] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -20,6 +21,9 @@ export function ProductPage() {
 			setProductData(result.data);
 		} else {
 			navigate("/404");
+		}
+		if (result.data.status != "available") {
+			setSold(true);
 		}
 	}
 	const shortDate = dayjs(productData.createdAt).format("DD/MM/YYYY");
@@ -55,13 +59,16 @@ export function ProductPage() {
 					<Button variant="contained">Editar producto</Button>
 				</Link>
 			) : (
-				<Link
-					className="self-center"
-					to={"/products/" + productData.product_id + "/order"}
-				>
-					<Button variant="contained">¡Quiero comprarlo!</Button>
-				</Link>
+				!sold && (
+					<Link
+						className="self-center"
+						to={"/products/" + productData.product_id + "/order"}
+					>
+						<Button variant="contained">¡Quiero comprarlo!</Button>
+					</Link>
+				)
 			)}
+
 			<section className="flex flex-col pl-4">
 				<h1>
 					{productData.product_title} - {productData.price}€ -{" "}
