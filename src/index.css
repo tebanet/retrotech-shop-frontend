@@ -6,53 +6,53 @@
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
 * {
-	scrollbar-width: thin;
-	scrollbar-color: #999999 #ffffff;
+  scrollbar-width: thin;
+  scrollbar-color: #999999 #ffffff;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-	width: 12px;
+  width: 12px;
 }
 
 *::-webkit-scrollbar-track {
-	background: transparent;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-	background-color: #999999;
-	border-radius: 8px;
-	border: 4px solid var(--primary-color);
+  background-color: #999999;
+  border-radius: 8px;
+  border: 4px solid var(--primary-color);
 }
 
 :root {
-	--body-font-family: "Poppins", sans-serif;
-	--header-font-family: "Montserrat", sans-serif;
-	--primary-color: #ecf8f9; /* Fondo */
-	--secondary-color: #068da9; /* Menus */
-	--tertiary-color: #7e1717; /* Componentes */
-	--quaternary-color: #e55807; /* Textos */
+  --body-font-family: "Poppins", sans-serif;
+  --header-font-family: "Montserrat", sans-serif;
+  --primary-color: #ecf8f9; /* Fondo */
+  --secondary-color: #068da9; /* Menus */
+  --tertiary-color: #7e1717; /* Componentes */
+  --quaternary-color: #e55807; /* Textos */
 }
 
 * {
-	box-sizing: border-box;
-	font-family: inherit;
-	font-size: inherit;
-	margin: 0;
-	padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-	font-family: var(--body-font-family);
-	background-color: var(--primary-color);
+  font-family: var(--body-font-family);
+  background-color: var(--primary-color);
 }
 
 div#root {
-	display: flex;
-	flex-direction: column;
-	min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
 }
 
 h1 {
-	font-family: var(--header-font-family);
+  font-family: var(--header-font-family);
 }
