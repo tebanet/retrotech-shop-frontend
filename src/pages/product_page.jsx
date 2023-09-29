@@ -10,12 +10,17 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { API_HOST } from "../utils/constants";
+import { OrderProductForm } from "../forms/order-product-form";
+import { postOrder } from "../api/post-order";
+import { toast } from "sonner";
 
 export function ProductPage() {
 	const currentUser = useCurrentUser();
 	const [ownership, setOwnership] = useState(false);
 
-const [sold, setSold] = useState(false);
+	const [sold, setSold] = useState(false);
+	const [buy, setBuy] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -38,25 +43,19 @@ const [sold, setSold] = useState(false);
 		switch (productData.status) {
 			case "reserved":
 				return (
-
 					<button className="w-full bg-yellow-500 text-white py-2 px-4 rounded-full font-bold hover:bg-yellow-600 cursor-auto">
 						<TimerOutlinedIcon fontSize="inherit" /> Reservado
-
 					</button>
 				);
 			case "available":
 				return (
-
 					<button className="w-full bg-green-500 text-white py-2 px-4 rounded-full font-bold hover:bg-green-600 cursor-auto">
 						<CheckOutlinedIcon fontSize="inherit" /> Disponible
-
 					</button>
 				);
 			case "sold out":
 				return (
-
 					<button className="w-full bg-red-500 text-white py-2 px-4 rounded-full font-bold hover:bg-red-600 cursor-auto">
-
 						<CloseOutlinedIcon fontSize="inherit" /> Vendido
 					</button>
 				);
@@ -65,19 +64,48 @@ const [sold, setSold] = useState(false);
 		}
 	})();
 
-	const checkOwnership = () => {
+	async function checkOwnership() {
 		if (productData.username === currentUser?.username) {
 			setOwnership(true);
+		} else {
+			setOwnership(false);
 		}
-	};
-
-	useEffect(() => {
-		checkOwnership();
-	}, [productData]);
+	}
 
 	useEffect(() => {
 		fetchProductData();
 	}, [product_id]);
+
+	useEffect(() => {
+		checkOwnership();
+	}, [fetchProductData]);
+
+	const [formData, setFormData] = useState({
+		message: "",
+		delivery_place: "",
+	});
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+	};
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const orderCreated = await postOrder(
+			product_id,
+			formData.message,
+			formData.delivery_place
+		);
+
+		if (orderCreated) {
+			navigate("/");
+			toast.success("¡Pedido hecho! Ahora solo falta esperar 😊");
+		}
+	};
 
 	return (
 		<Main>
@@ -88,9 +116,7 @@ const [sold, setSold] = useState(false);
 							<span className="h-[460px] rounded-lg bg-gray-300 mb-4">
 								<img
 									className="w-full h-full object-cover"
-									src={
-										"http://localhost:3000/uploads/" + productData.product_image
-									}
+									src={API_HOST + "/uploads/" + productData.product_image}
 									alt={"Imagen de " + productData.product_image}
 								/>
 							</span>
@@ -107,16 +133,18 @@ const [sold, setSold] = useState(false);
 										{/* <Button variant="contained">Editar producto</Button> */}
 									</Link>
 								) : (
-									<Link
-										className="self-center"
-										to={"/products/" + productData.product_id + "/order"}
-									>
-										<button className="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
+									!sold == true && (
+										<button
+											onClick={() => {
+												setBuy(!buy);
+											}}
+											className="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800"
+										>
 											<ShoppingBagIcon />
-											Quiero comprarlo!
+											¡Quiero comprarlo!
 										</button>
-										{/* <Button variant="contained">¡Quiero comprarlo!</Button> */}
-									</Link>
+									)
+									/* <Button variant="contained">¡Quiero comprarlo!</Button> */
 								)}
 							</span>
 						</section>
@@ -165,10 +193,19 @@ const [sold, setSold] = useState(false);
 					</section>
 				</section>
 			</section>
+			{buy ? (
+				<OrderProductForm
+					formData={formData}
+					handleInputChange={handleInputChange}
+					handleSubmit={handleSubmit}
+				/>
+			) : (
+				""
+			)}
 			<section className="flex justify-center">
 				<img
 					className="max-w-[15rem]"
-					src={"http://localhost:3000/uploads/" + productData.product_image}
+					src={API_HOST + "/uploads/" + productData.product_image}
 					alt={"Foto de " + productData.product_title}
 				/>
 			</section>
@@ -180,12 +217,14 @@ const [sold, setSold] = useState(false);
 					<Button variant="contained">Editar producto</Button>
 				</Link>
 			) : (
-				<Link
-					className="self-center"
-					to={"/products/" + productData.product_id + "/order"}
-				>
-					<Button variant="contained">¡Quiero comprarlo!</Button>
-				</Link>
+				!sold && (
+					<Link
+						className="self-center"
+						to={"/products/" + productData.product_id + "/order"}
+					>
+						<Button variant="contained">¡Quiero comprarlo!</Button>
+					</Link>
+				)
 			)}
 			<section className="flex flex-col pl-4">
 				<h1>

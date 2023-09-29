@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { Button, Rating, TextField } from "@mui/material";
 import { rateOrder } from "../api/post-order-rate";
 import { toast } from "sonner";
+import { API_HOST } from "../utils/constants";
 
 export function RateOrder() {
 	const navigate = useNavigate();
@@ -59,7 +60,7 @@ export function RateOrder() {
 			<section className="flex justify-center">
 				<img
 					className="max-w-[15rem]"
-					src={"http://localhost:3000/uploads/" + order?.product_image}
+					src={API_HOST + "/uploads/" + order?.product_image}
 					alt={"foto de " + order?.product_title}
 				/>
 			</section>

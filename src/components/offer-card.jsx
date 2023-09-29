@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import { patchOffer } from "../api/patch-offer";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { API_HOST } from "../utils/constants";
 
 export function OfferCard({ offer }) {
 	const navigate = useNavigate();
@@ -17,7 +18,6 @@ export function OfferCard({ offer }) {
 			setStatus(true);
 		}
 	}
-	console.log(offer);
 
 	function acceptOffer() {
 		const status = "accepted";
@@ -43,7 +43,7 @@ export function OfferCard({ offer }) {
 				<Link to={"/products/" + offer.product_id}>
 					<img
 						className="max-w-[5rem] rounded-xl"
-						src={offer.product_image}
+						src={API_HOST + "/uploads/" + offer.product_image}
 						alt={"image of " + offer.product_tite}
 					/>
 				</Link>
