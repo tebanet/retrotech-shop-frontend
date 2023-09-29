@@ -8,7 +8,7 @@ export const LoginForm = ({
 }) => (
   <form
     onSubmit={handleSubmit}
-    className="flex flex-col gap-4 md:px-44 lg:px-44 xl:px-44"
+    className="flex flex-col mx-auto gap-4 w-full lg:w-8/12 xl:w-7/12"
   >
     <TextField
       label="Correo electrónico"

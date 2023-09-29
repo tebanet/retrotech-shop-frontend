@@ -1,13 +1,20 @@
-import { Button, TextField, TextareaAutosize } from "@mui/material";
+import { TextField } from "@mui/material";
+import { TailoredButton } from "../utils/tailored-button";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 
 export const OrderProductForm = ({
   formData,
   handleInputChange,
   handleSubmit,
 }) => (
-  <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-2/4">
-    <TextareaAutosize
-      minRows={2}
+  <form
+    onSubmit={handleSubmit}
+    className="flex flex-col mx-auto gap-4 w-full lg:w-8/12 xl:w-7/12"
+  >
+    <TextField
+      id="outlined-multiline-static"
+      multiline
+      rows={3}
       placeholder="¿Quieres decirle algo al vendedor?"
       name="message"
       value={formData.message}
@@ -21,8 +28,10 @@ export const OrderProductForm = ({
       onChange={handleInputChange}
       required
     />
-    <Button type="submit" variant="contained" color="primary">
+    <TailoredButton type="submit" variant="contained" color="primary">
+      <ShoppingBagIcon />
+      {"  "}
       ¡Manda tu pedido!
-    </Button>
+    </TailoredButton>
   </form>
 );
