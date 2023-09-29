@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { getProductByCategory } from "../api/get-product-by-category";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductCard } from "../components/product-card";
+import { getCategoryDisplayName } from "../hooks/get-category-display-name";
+import { Divider } from "@mui/material";
 
 export function CategoryPage() {
 	const navigate = useNavigate();
@@ -23,9 +25,12 @@ export function CategoryPage() {
 		fetchProducts();
 	}, []);
 
+	const categoryDisplayName = getCategoryDisplayName(category);
+
 	return (
 		<Main>
-			<h2 className="text-2xl">{category}</h2>
+			<h2 className="text-2xl">{categoryDisplayName}</h2>
+			<Divider />
 			<ul className="flex flex-row flex-wrap justify-around gap-8">
 				{products.map((product) => {
 					return (

@@ -4,44 +4,44 @@
 @tailwind utilities;
 
 :root {
-  --body-font-family: "IBM Plex Sans", sans-serif;
-  --header-font-family: "IBM Plex Sans Condensed", sans-serif;
-  --primary-color: #ecf8f9; /* Fondo */
-  --secondary-color: #068da9; /* Menus */
-  --tertiary-color: #7e1717; /* Componentes */
-  --quaternary-color: #e55807; /* Textos */
+	--body-font-family: "IBM Plex Sans", sans-serif;
+	--header-font-family: "IBM Plex Sans Condensed", sans-serif;
+	--primary-color: #ecf8f9; /* Fondo */
+	--secondary-color: #068da9; /* Menus */
+	--tertiary-color: #7e1717; /* Componentes */
+	--quaternary-color: #e55807; /* Textos */
 }
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #999999 #ffffff;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  margin: 0;
-  padding: 0;
+	scrollbar-width: thin;
+	scrollbar-color: #999999 #ffffff;
+	box-sizing: border-box;
+	font-family: inherit;
+	font-size: inherit;
+	margin: 0;
+	padding: 0;
 }
 
-/* Chrome, Edge, and Safari */
-/* *::-webkit-scrollbar {
+/*Chrome,
+Edge,
+and Safari */
+::-webkit-scrollbar {
 	width: 12px;
 }
 
 *::-webkit-scrollbar-track {
-  background: transparent;
+	background: transparent;
 }
 *::-webkit-scrollbar-thumb {
 	background-color: #999999;
 	border-radius: 8px;
 	border: 4px solid var(--primary-color);
-} */
+}
 
 ::-webkit-scrollbar {
 	display: none;
 }
 
 :root {
-	--body-font-family: "Poppins", sans-serif;
-	--header-font-family: "Montserrat", sans-serif;
 	--primary-color: #ecf8f9; /* Fondo */
 	--secondary-color: #068da9; /* Menus */
 	--tertiary-color: #7e1717; /* Componentes */
@@ -67,14 +67,12 @@ div#root {
 	min-width: 320px;
 }
 
-h1 {
-	font-family: var(--header-font-family);
 h1 h2 h3 h4 {
-  font-family: var(--header-font-family);
+	font-family: var(--header-font-family);
 }
 
 @layer base {
-  html {
-    font-family: IBM Plex Sans, sans-serif;
-  }
+	html {
+		font-family: "IBM Plex Sans", sans-serif;
+	}
 }
