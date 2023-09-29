@@ -11,12 +11,17 @@ import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { getPlaceOfSale } from "../hooks/get-place-of-sale";
+import { API_HOST } from "../utils/constants";
+import { OrderProductForm } from "../forms/order-product-form";
+import { postOrder } from "../api/post-order";
+import { toast } from "sonner";
 
 export function ProductPage() {
   const currentUser = useCurrentUser();
   const [ownership, setOwnership] = useState(false);
 
   const [sold, setSold] = useState(false);
+  const [buy, setBuy] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,19 +67,48 @@ export function ProductPage() {
     }
   })();
 
-  const checkOwnership = () => {
+  async function checkOwnership() {
     if (productData.username === currentUser?.username) {
       setOwnership(true);
+    } else {
+      setOwnership(false);
     }
-  };
-
-  useEffect(() => {
-    checkOwnership();
-  }, [productData]);
+  }
 
   useEffect(() => {
     fetchProductData();
   }, [product_id]);
+
+  useEffect(() => {
+    checkOwnership();
+  }, [fetchProductData]);
+
+  const [formData, setFormData] = useState({
+    message: "",
+    delivery_place: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const orderCreated = await postOrder(
+      product_id,
+      formData.message,
+      formData.delivery_place
+    );
+
+    if (orderCreated) {
+      navigate("/");
+      toast.success("¡Pedido hecho! Ahora solo falta esperar 😊");
+    }
+  };
 
   return (
     <Main>
@@ -141,25 +175,36 @@ export function ProductPage() {
             </section>
           </section>
         </section>
-        <span className="flex justify-center -mx-2 mt-4 mb-4">
+        <span className="flex flex-col items-center justify-center mt-4 mb-4 gap-4">
           {ownership ? (
-            <Link
-              className="self-center"
-              to={"/products/" + productData.product_id + "/edit"}
-            >
-              <button className="w-full bg-secondary text-white mt-5 py-2 px-4 rounded-full font-bold hover:bg-gray-800">
-                <EditNoteIcon /> Editar producto
+            <Link to={"/products/" + productData.product_id + "/edit"}>
+              <button className="w-1/4 bg-secondary text-white mt-5 py-2 px-4 rounded-full font-bold hover:bg-gray-400">
+                <EditNoteIcon />
+                Editar producto
               </button>
             </Link>
           ) : (
-            <Link
-              className="self-center"
-              to={"/products/" + productData.product_id + "/order"}
-            >
-              <button className="w-full bg-secondary text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
-                <ShoppingBagIcon /> Quiero comprarlo!
+            !sold == true && (
+              <button
+                onClick={() => {
+                  setBuy(!buy);
+                }}
+                className="w-1/4 bg-secondary text-white py-2 px-4 rounded-full font-bold hover:bg-gray-400"
+              >
+                <ShoppingBagIcon />
+                ¡Quiero comprarlo!
               </button>
-            </Link>
+            )
+            /* <Button variant="contained">¡Quiero comprarlo!</Button> */
+          )}
+          {buy ? (
+            <OrderProductForm
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleSubmit={handleSubmit}
+            />
+          ) : (
+            ""
           )}
         </span>
       </section>

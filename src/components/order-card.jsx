@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { OrderStatus } from "../utils/order-status";
+import { API_HOST } from "../utils/constants";
 
 export function OrderCard({ order }) {
 	const shortDate = dayjs(order.order_date).format("DD/MM/YYYY");
@@ -11,7 +12,7 @@ export function OrderCard({ order }) {
 				<Link to={"/products/" + order.product_id}>
 					<img
 						className="max-w-[5rem] rounded-xl"
-						src={order.product_image}
+						src={API_HOST + "/uploads/" + order.product_image}
 						alt={"image of " + order.product_tite}
 					/>
 				</Link>

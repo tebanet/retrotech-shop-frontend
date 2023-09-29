@@ -18,10 +18,7 @@ export function ProfileButton({ user, onClick }) {
 				<Avatar
 					className="max-w-[1.5rem] max-h-[1.5rem]"
 					alt="Foto de Perfil"
-					src={
-						user.profile_pic ||
-						API_HOST + "/profile_pics/default_profile_pic.webp"
-					}
+					src={user?.profile_pic}
 				/>
 			) : (
 				<AccountCircleOutlinedIcon />
