@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { getProductData } from "../api/get-product-data";
-import { Button } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { useCurrentUser } from "../hooks/use-current-user";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
@@ -14,7 +14,8 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 export function ProductPage() {
 	const currentUser = useCurrentUser();
 	const [ownership, setOwnership] = useState(false);
-	const [sold, setSold] = useState(false);
+
+const [sold, setSold] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -37,21 +38,25 @@ export function ProductPage() {
 		switch (productData.status) {
 			case "reserved":
 				return (
-					<button className="w-full bg-yellow-500 text-white py-2 px-4 rounded-full font-bold hover:bg-yellow-600">
-						<TimerOutlinedIcon fontSize="inherit" />
-						Reservado
+
+					<button className="w-full bg-yellow-500 text-white py-2 px-4 rounded-full font-bold hover:bg-yellow-600 cursor-auto">
+						<TimerOutlinedIcon fontSize="inherit" /> Reservado
+
 					</button>
 				);
 			case "available":
 				return (
-					<button className="w-full bg-green-500 text-white py-2 px-4 rounded-full font-bold hover:bg-green-600">
-						<CheckOutlinedIcon fontSize="inherit" />
-						Disponible
+
+					<button className="w-full bg-green-500 text-white py-2 px-4 rounded-full font-bold hover:bg-green-600 cursor-auto">
+						<CheckOutlinedIcon fontSize="inherit" /> Disponible
+
 					</button>
 				);
 			case "sold out":
 				return (
-					<button className="w-full bg-red-500 text-white py-2 px-4 rounded-full font-bold hover:bg-red-600">
+
+					<button className="w-full bg-red-500 text-white py-2 px-4 rounded-full font-bold hover:bg-red-600 cursor-auto">
+
 						<CloseOutlinedIcon fontSize="inherit" /> Vendido
 					</button>
 				);
@@ -95,7 +100,7 @@ export function ProductPage() {
 										className="self-center"
 										to={"/products/" + productData.product_id + "/edit"}
 									>
-										<button className="w-full bg-secondary text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
+										<button className="w-full bg-secondary text-white mt-5 py-2 px-4 rounded-full font-bold hover:bg-gray-800">
 											<EditNoteIcon />
 											Editar producto
 										</button>
@@ -115,7 +120,7 @@ export function ProductPage() {
 								)}
 							</span>
 						</section>
-						<div className="md:flex-1 px-4">
+						<section className="md:flex-1 px-4">
 							<h2 className="text-2xl font-bold mb-2">
 								{productData.product_title}
 							</h2>
@@ -123,32 +128,43 @@ export function ProductPage() {
 								{productData.description}
 							</p>
 							<span className="flex justify-between mb-4">
-								<div className="mr-4">
+								<span className="mr-4">
 									<span className="font-bold text-gray-700">Precio: </span>
-									<span className="text-gray-600">€ ${productData.price}</span>
-								</div>
-								<div>
+									<span className="text-gray-600">€ {productData.price}</span>
+								</span>
+								<span>
 									<span id="status-span" className="text-gray-600">
 										{productStatus}
 									</span>
-									{/* //Aqui tengo que mejorar esto */}
-								</div>
+								</span>
 							</span>
 
 							<section className="mb-4">
-								<span>
-									<p className="font-bold text-gray-700">
-										Publicado desde:{" "}
-										<span className="font-light">{shortDate}</span>
-									</p>
-								</span>
-								<p className="text-gray-600 text-sm mt-2"></p>
+								<p className="font-bold text-gray-700">
+									Publicado desde:{" "}
+									<span className="font-light">{shortDate}</span>
+								</p>
+								<p className="font-bold text-gray-700">
+									Se vende:{" "}
+									<span className="font-light">
+										{productData.place_of_sale}
+									</span>
+								</p>
+								<p className="font-bold text-gray-700">
+									Está ubicado en:{" "}
+									<span className="font-light">{productData.location}</span>
+								</p>
+
+								<p className="text-gray-600 text-sm mt-2">Vendido por</p>
+								<Avatar alt="Foto de perfil" src={productData.profile_pic} />
+								<Link to={"/users/" + productData.username}>
+									<h4>{productData.username}</h4>
+								</Link>
 							</section>
-						</div>
+						</section>
 					</section>
 				</section>
 			</section>
-
 			<section className="flex justify-center">
 				<img
 					className="max-w-[15rem]"

@@ -27,22 +27,20 @@ export default function AccountMenu() {
 	const location = useLocation();
 	const [login, setLogin] = React.useState(false);
 	const logout = useLogout();
-	const navigate = useNavigate();
 
-	React.useEffect(() => {
-		const isLoggedIn = currentUser !== null;
-		setLogin(isLoggedIn);
-	}, [currentUser]);
+  React.useEffect(() => {
+    const isLoggedIn = currentUser !== null;
+    setLogin(isLoggedIn);
+  }, [currentUser]);
 
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
-	const handleClick = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 	const [unrated, setUnrated] = React.useState([]);
 	async function getUnrated() {
 		const result = await getUnratedOrders(username);
@@ -199,4 +197,5 @@ export default function AccountMenu() {
 			</Menu>
 		</React.Fragment>
 	);
+
 }
