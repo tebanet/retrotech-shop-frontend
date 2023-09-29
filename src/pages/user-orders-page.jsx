@@ -30,7 +30,7 @@ export function OrdersPage() {
 			<ul className="flex flex-col flex-wrap justify-around gap-4 md:flex-nowrap md:overflow-x-scroll">
 				{userOrders.map((order) => {
 					return (
-						<li key={order.orderId}>
+						<li key={order.order_id}>
 							<OrderCard order={order} />
 						</li>
 					);

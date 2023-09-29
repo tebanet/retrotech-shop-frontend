@@ -15,6 +15,8 @@ export function ProductPage() {
 	const currentUser = useCurrentUser();
 	const [ownership, setOwnership] = useState(false);
 
+const [sold, setSold] = useState(false);
+
 	const navigate = useNavigate();
 
 	let { product_id } = useParams();
@@ -26,6 +28,9 @@ export function ProductPage() {
 		} else {
 			navigate("/404");
 		}
+		if (result.data.status != "available") {
+			setSold(true);
+		}
 	}
 	const shortDate = dayjs(productData.createdAt).format("DD/MM/YYYY");
 
@@ -33,19 +38,25 @@ export function ProductPage() {
 		switch (productData.status) {
 			case "reserved":
 				return (
+
 					<button className="w-full bg-yellow-500 text-white py-2 px-4 rounded-full font-bold hover:bg-yellow-600 cursor-auto">
 						<TimerOutlinedIcon fontSize="inherit" /> Reservado
+
 					</button>
 				);
 			case "available":
 				return (
+
 					<button className="w-full bg-green-500 text-white py-2 px-4 rounded-full font-bold hover:bg-green-600 cursor-auto">
 						<CheckOutlinedIcon fontSize="inherit" /> Disponible
+
 					</button>
 				);
 			case "sold out":
 				return (
+
 					<button className="w-full bg-red-500 text-white py-2 px-4 rounded-full font-bold hover:bg-red-600 cursor-auto">
+
 						<CloseOutlinedIcon fontSize="inherit" /> Vendido
 					</button>
 				);
@@ -67,8 +78,6 @@ export function ProductPage() {
 	useEffect(() => {
 		fetchProductData();
 	}, [product_id]);
-
-	console.log(productData);
 
 	return (
 		<Main>
@@ -187,6 +196,9 @@ export function ProductPage() {
 					Puesto a la venta: {shortDate} {productData.location}
 				</h2>
 				<h3>{productData.description}</h3>
+				<Link to={"/users/" + productData.username}>
+					<h4>{productData.username}</h4>
+				</Link>
 			</section>
 		</Main>
 	);

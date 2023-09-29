@@ -30,7 +30,7 @@ export function OffersPage() {
 			<ul className="flex flex-col flex-wrap justify-around gap-4 md:flex-nowrap md:overflow-x-scroll">
 				{userOffers.map((offer) => {
 					return (
-						<li key={offer.orderId}>
+						<li key={offer.order_id}>
 							<OfferCard offer={offer} />
 						</li>
 					);
