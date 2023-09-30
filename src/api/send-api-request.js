@@ -3,6 +3,7 @@ import { API_HOST, CURRENT_USER_STORAGE_ID } from "../utils/constants.js";
 export const METHODS = {
   GET: "GET",
   POST: "POST",
+  PUT: "PUT",
   PATCH: "PATCH",
   DELETE: "DELETE",
 };

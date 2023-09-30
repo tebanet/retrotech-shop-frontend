@@ -25,7 +25,5 @@ export async function postNewProduct(
     requestBody
   );
   const data = await response.data;
-  console.log(response);
-  console.log(data);
   return data;
 }

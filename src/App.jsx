@@ -22,6 +22,7 @@ import { RateOrder } from "./pages/rate-order-page";
 import { SearchPage } from "./pages/search-page";
 import { Footer } from "./components/footer";
 import { NewProductImage } from "./pages/new-product-image-page";
+import { ModifyProduct } from "./pages/modify-product-page";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path=":product_id" element={<ProductPage />} />
           <Route path="new" element={<NewProduct />} />
           <Route path="new-image" element={<NewProductImage />} />
+          <Route path=":product_id/update" element={<ModifyProduct />} />
         </Route>
         <Route path="/category">
           <Route path=":category" element={<CategoryPage />} />

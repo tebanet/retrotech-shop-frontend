@@ -10,12 +10,13 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DeleteIcon from "@mui/icons-material/Delete"; // Add this import
 import { getPlaceOfSale } from "../hooks/get-place-of-sale";
 import { API_HOST } from "../utils/constants";
 import { OrderProductForm } from "../forms/order-product-form";
 import { postOrder } from "../api/post-order";
+import { deleteProduct } from "../api/delete-product"; // Add this import
 import { toast } from "sonner";
-import { display } from "@mui/system";
 
 export function ProductPage() {
   const currentUser = useCurrentUser();
@@ -24,6 +25,7 @@ export function ProductPage() {
 
   const [sold, setSold] = useState(false);
   const [buy, setBuy] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false); // Add this state
 
   const navigate = useNavigate();
 
@@ -118,6 +120,20 @@ export function ProductPage() {
     }
   };
 
+  const handleDeleteClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    await deleteProduct(product_id);
+    setShowConfirm(false);
+    navigate("/"); // Redirect to home page after deletion
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirm(false);
+  };
+
   return (
     <Main>
       <section className="bg-gray-100 py-8">
@@ -183,12 +199,22 @@ export function ProductPage() {
         </section>
         <span className="flex flex-col items-center justify-center mt-4 mb-4 gap-4">
           {ownership ? (
-            <Link to={"/products/" + productData.product_id + "/edit"}>
-              <Button variant="contained" color="primary">
-                <EditNoteIcon />
-                Editar producto
+            <span className="flex gap-4">
+              <Link to={"/products/" + productData.product_id + "/update"}>
+                <Button variant="outlined" color="secondary">
+                  <EditNoteIcon />
+                  Editar producto
+                </Button>
+              </Link>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleDeleteClick}
+              >
+                <DeleteIcon />
+                Eliminar producto
               </Button>
-            </Link>
+            </span>
           ) : (
             !sold == true &&
             login && (
@@ -213,6 +239,30 @@ export function ProductPage() {
             />
           ) : (
             ""
+          )}
+          {showConfirm && (
+            <span className="flex flex-col mx-auto gap-4 w-full lg:w-8/12 xl:w-7/12 bg-white rounded-lg shadow-md p-5">
+              <h1 className="self-center">
+                ¿Estás seguro de que quieres eliminar{" "}
+                {productData.product_title}?
+              </h1>
+              <Button
+                type="submit"
+                variant="outlined"
+                color="error"
+                onClick={handleConfirmDelete}
+              >
+                Si
+              </Button>
+              <Button
+                type="submit"
+                variant="outlined"
+                color="secondary"
+                onClick={handleCancelDelete}
+              >
+                No
+              </Button>
+            </span>
           )}
         </span>
       </section>

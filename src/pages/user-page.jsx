@@ -72,7 +72,6 @@ export function UserPage() {
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
     const userId = userData.id;
-    console.log(userData);
     if (file && userId) {
       try {
         const result = await modifyUserPic(userId, file);
@@ -105,7 +104,7 @@ export function UserPage() {
               justifyContent: "center",
             }}
           >
-            {isHovered && (
+            {isHovered && accountOwnership && (
               <IconButton
                 style={{
                   position: "absolute",

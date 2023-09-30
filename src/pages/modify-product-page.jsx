@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Main } from "../components/main";
-import { ProductForm } from "../forms/new-product-form";
-import { postNewProduct } from "../api/post-new-product";
 import { toast } from "sonner";
 import { useCurrentUser } from "../hooks/use-current-user";
-import { newProductSchema, validateField } from "../utils/joi-validation";
+import { updateProductSchema, validateField } from "../utils/joi-validation";
+import { UpdateProductForm } from "../forms/update-product-form";
+import { updateProduct } from "../api/update-product";
 
-export function NewProduct() {
+export function ModifyProduct() {
   const [login, setLogin] = useState(false);
   const currentUser = useCurrentUser();
 
@@ -26,10 +26,11 @@ export function NewProduct() {
     category: "",
     price: "",
     description: "",
-    status: "available",
     place_of_sale: "",
     location: "",
   });
+
+  const { product_id } = useParams();
 
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -40,7 +41,7 @@ export function NewProduct() {
       [name]: value,
     });
 
-    const validationError = validateField(name, value, newProductSchema);
+    const validationError = validateField(name, value, updateProductSchema);
     setValidationErrors({
       ...validationErrors,
       [name]: validationError,
@@ -50,7 +51,7 @@ export function NewProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { error } = newProductSchema.validate(formData, {
+    const { error } = updateProductSchema.validate(formData, {
       abortEarly: false,
     });
 
@@ -63,29 +64,32 @@ export function NewProduct() {
       return;
     }
 
-    const productCreated = await postNewProduct(
-      formData.product_title,
-      formData.category,
-      formData.price,
-      formData.description,
-      formData.status,
-      formData.place_of_sale,
-      formData.location
-    );
+    try {
+      const productCreated = await updateProduct(
+        formData.product_title,
+        formData.category,
+        formData.price,
+        formData.description,
+        formData.place_of_sale,
+        formData.location,
+        product_id
+      );
 
-    if (productCreated) {
-      toast.success("¡Producto creado con éxito!");
-      navigate("/products/new-image");
-    } else {
-      toast.error("No se pudo crear el producto");
-      console.error(error);
+      if (productCreated) {
+        toast.success("¡Producto actualizado con éxito!");
+        navigate(`/products/${product_id}`);
+      } else {
+        toast.error("No se pudo actualizar el producto");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   return (
     <Main>
-      <h1 className="text-4xl block self-center">¿Qué vas a vender?</h1>
-      <ProductForm
+      <h1 className="text-4xl block self-center">Modifica tu producto</h1>
+      <UpdateProductForm
         formData={formData}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
