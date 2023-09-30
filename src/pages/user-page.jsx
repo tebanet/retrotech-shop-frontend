@@ -17,7 +17,6 @@ export function UserPage() {
   const { username } = useParams();
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState({});
-  const [newProfilePic, setNewProfilePic] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -65,7 +64,7 @@ export function UserPage() {
   };
 
   const handleCameraIconClick = () => {
-    if (fileInputRef.current) {
+    if (fileInputRef) {
       fileInputRef.current.click();
     }
   };
@@ -78,12 +77,7 @@ export function UserPage() {
       try {
         const result = await modifyUserPic(userId, file);
         if (result.status === "ok") {
-          const newPicURL = result.data.picURL;
-          setUserData((prevState) => ({
-            ...prevState,
-            profile_pic: newPicURL,
-          }));
-          setNewProfilePic(newPicURL);
+          fetchUserData(username);
           toast.success("Imagen de perfil cargada con éxito. 🎉");
         } else {
           toast.error("No se ha podido cargar la imagen. 😭");
@@ -138,7 +132,7 @@ export function UserPage() {
 
             <img
               className="w-32 h-32 rounded-full mx-auto"
-              src={newProfilePic || userData.profile_pic}
+              src={userData.profile_pic}
               alt={"Foto de " + userData.username}
             />
           </span>
@@ -158,15 +152,6 @@ export function UserPage() {
             <p className="text-gray-600 mt-2">{userData.bio}</p>
           </span>
           <span className="flex justify-center mt-5 gap-4">
-            <Link to={"/users/update"}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                sx={{ width: "12rem" }}
-              >
-                Editar información
-              </Button>
-            </Link>
             <Link to={"/users/" + username + "/orders"}>
               <Button
                 variant="outlined"
