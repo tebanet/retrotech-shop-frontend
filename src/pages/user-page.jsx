@@ -84,9 +84,9 @@ export function UserPage() {
             profile_pic: newPicURL,
           }));
           setNewProfilePic(newPicURL);
-          toast.success("Imagen de perfil cargada con éxito");
-          await handleFileInputChange;
+          toast.success("Imagen de perfil cargada con éxito. 🎉");
         } else {
+          toast.error("No se ha podido cargar la imagen. 😭");
           console.error("Error updating the image.");
           setError("Error updating the image.");
         }
