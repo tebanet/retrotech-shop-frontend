@@ -10,6 +10,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { modifyUserPic } from "../api/put-modify-user-profile-pic";
 import { Main } from "../components/main";
 import { useCurrentUser } from "../hooks/use-current-user";
+import { toast } from "sonner";
 
 export function UserPage() {
   const navigate = useNavigate();
@@ -83,6 +84,8 @@ export function UserPage() {
             profile_pic: newPicURL,
           }));
           setNewProfilePic(newPicURL);
+          toast.success("Imagen de perfil cargada con éxito");
+          await handleFileInputChange;
         } else {
           console.error("Error updating the image.");
           setError("Error updating the image.");
