@@ -2,7 +2,6 @@ import { METHODS, sendApiRequest } from "./send-api-request.js";
 
 export async function postNewProduct(
   product_title,
-  product_image,
   category,
   price,
   description,
@@ -12,7 +11,6 @@ export async function postNewProduct(
 ) {
   const requestBody = {
     product_title,
-    product_image,
     category,
     price,
     description,
@@ -21,5 +19,13 @@ export async function postNewProduct(
     location,
   };
 
-  return await sendApiRequest(METHODS.POST, "/products/new", requestBody);
+  const response = await sendApiRequest(
+    METHODS.POST,
+    "/products/new",
+    requestBody
+  );
+  const data = await response.data;
+  console.log(response);
+  console.log(data);
+  return data;
 }

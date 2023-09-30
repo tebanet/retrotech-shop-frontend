@@ -26,29 +26,42 @@ export function Header() {
             className="w-60"
           />
         </Link>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            navigate("/search?title=" + title);
-          }}
-          className="flex gap-4"
-        >
-          <TextField
-            size="small"
-            label="¿Qué buscas?"
-            id="title"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
+        <span>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              navigate("/search?title=" + title);
             }}
-            sx={{
-              width: "30rem",
-            }}
-          />
-          <Button type="submit" variant="contained" size="small">
-            <SearchIcon />
-          </Button>
-        </form>
+            className="flex gap-4"
+          >
+            <TextField
+              size="small"
+              label="¿Qué buscas?"
+              id="title"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              sx={{
+                width: "30rem",
+                backgroundColor: "#ffffff",
+                borderRadius: "6px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              size="small"
+              color="secondary"
+              sx={{
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+              }}
+            >
+              <SearchIcon />
+            </Button>
+          </form>
+        </span>
         <AccountMenu />
       </header>
     </>

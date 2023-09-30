@@ -6,102 +6,96 @@ import { postNewProduct } from "../api/post-new-product";
 import { toast } from "sonner";
 import { useCurrentUser } from "../hooks/use-current-user";
 import { newProductSchema, validateField } from "../utils/joi-validation";
+import { NewProductImage } from "./new-product-image-page";
 
 export function NewProduct() {
-	const [login, setLogin] = useState(false);
-	const currentUser = useCurrentUser();
+  const [login, setLogin] = useState(false);
+  const currentUser = useCurrentUser();
 
-	useEffect(() => {
-		const isLoggedIn = currentUser !== null;
-		setLogin(isLoggedIn);
-		if (!localStorage.getItem("userToken")) {
-			navigate("/login");
-		}
-	}, [currentUser]);
+  useEffect(() => {
+    const isLoggedIn = currentUser !== null;
+    setLogin(isLoggedIn);
+    if (!localStorage.getItem("userToken")) {
+      navigate("/login");
+    }
+  }, [currentUser]);
 
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const [formData, setFormData] = useState({
-		product_title: "",
-		product_image: "",
-		category: "",
-		price: "",
-		description: "",
-		status: "available",
-		place_of_sale: "",
-		location: "",
-	});
+  const [formData, setFormData] = useState({
+    product_title: "",
+    category: "",
+    price: "",
+    description: "",
+    status: "available",
+    place_of_sale: "",
+    location: "",
+  });
 
-	const [validationErrors, setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
+  const [productId, setProductId] = useState(null);
 
-	const handleInputChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({
-			...formData,
-			[name]: value,
-		});
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
 
-		const validationError = validateField(name, value, newProductSchema);
-		setValidationErrors({
-			...validationErrors,
-			[name]: validationError,
-		});
-	};
+    const validationError = validateField(name, value, newProductSchema);
+    setValidationErrors({
+      ...validationErrors,
+      [name]: validationError,
+    });
+  };
 
-	const handleImage = (e) => {
-		const file = e.target.files[0];
-		setFormData({
-			...formData,
-			product_image: file,
-		});
-	};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+    const { error } = newProductSchema.validate(formData, {
+      abortEarly: false,
+    });
 
-		const { error } = newProductSchema.validate(formData, {
-			abortEarly: false,
-		});
+    if (error) {
+      const errors = {};
+      error.details.forEach((detail) => {
+        errors[detail.path[0]] = detail.message;
+      });
+      setValidationErrors(errors);
+      return;
+    }
 
-		if (error) {
-			const errors = {};
-			error.details.forEach((detail) => {
-				errors[detail.path[0]] = detail.message;
-			});
-			setValidationErrors(errors);
-			return;
-		}
+    const productCreated = await postNewProduct(
+      formData.product_title,
+      formData.category,
+      formData.price,
+      formData.description,
+      formData.status,
+      formData.place_of_sale,
+      formData.location
+    );
 
-		const productCreated = await postNewProduct(
-			formData.product_title,
-			formData.product_image,
-			formData.category,
-			formData.price,
-			formData.description,
-			formData.status,
-			formData.place_of_sale,
-			formData.location
-		);
+    setProductId(productCreated);
 
-		if (productCreated) {
-			toast.success("¡Producto creado con éxito!");
-			navigate("/");
-		} else {
-			toast.error("No se pudo crear el producto");
-			console.error(error);
-		}
-	};
+    if (productCreated) {
+      toast.success("¡Producto creado con éxito!");
+      navigate("/products/new-image");
+    } else {
+      toast.error("No se pudo crear el producto");
+      console.error(error);
+    }
+  };
 
-	return (
-		<Main>
-			<h1 className="text-4xl block self-center">¿Qué vas a vender?</h1>
-			<ProductForm
-				formData={formData}
-				handleInputChange={handleInputChange}
-				handleSubmit={handleSubmit}
-				handleImage={handleImage}
-				validationErrors={validationErrors}
-			/>
-		</Main>
-	);
+  return (
+    <Main>
+      <h1 className="text-4xl block self-center">¿Qué vas a vender?</h1>
+      <ProductForm
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+        validationErrors={validationErrors}
+      />
+      {productId && <NewProductImage productId={productId} />}
+    </Main>
+  );
 }

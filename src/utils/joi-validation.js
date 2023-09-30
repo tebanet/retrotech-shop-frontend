@@ -144,7 +144,6 @@ export const newProductSchema = Joi.object({
     "string.empty": "Este campo no puede estar vacío.",
     "any.required": "Este campo no puede estar vacío.",
   }),
-  product_image: Joi.allow("").optional(),
   category: Joi.string()
     .valid(...categoryEnum)
     .required()
