@@ -60,7 +60,7 @@ export function ModifyUserPage() {
           await modifyUserInfo(email, username, bio, address, password, id);
         }
       }
-      navigate(`/users/${username}`); // que pasa si el usuairo camvia el usename??
+      navigate(`/`);
     } catch (error) {
       console.error("Error al actualizar el usuario:", error);
     }

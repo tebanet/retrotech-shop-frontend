@@ -18,11 +18,9 @@ export const modifyUserPic = async (userId, file) => {
       });
 
       if (response.ok) {
-        toast.success("Imagen actualizada con éxito");
         const data = await response.json();
         return { status: "ok", data };
       } else {
-        toast.error("Error al actualizar la imagen");
         console.error("Error:", response.statusText);
         return { status: "error" };
       }

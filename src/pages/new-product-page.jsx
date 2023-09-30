@@ -33,7 +33,6 @@ export function NewProduct() {
   });
 
   const [validationErrors, setValidationErrors] = useState({});
-  const [productId, setProductId] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -75,8 +74,6 @@ export function NewProduct() {
       formData.location
     );
 
-    setProductId(productCreated);
-
     if (productCreated) {
       toast.success("¡Producto creado con éxito!");
       navigate("/products/new-image");
@@ -95,7 +92,6 @@ export function NewProduct() {
         handleSubmit={handleSubmit}
         validationErrors={validationErrors}
       />
-      {productId && <NewProductImage productId={productId} />}
     </Main>
   );
 }

@@ -158,6 +158,15 @@ export function UserPage() {
             <p className="text-gray-600 mt-2">{userData.bio}</p>
           </span>
           <span className="flex justify-center mt-5 gap-4">
+            <Link to={"/users/update"}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ width: "12rem" }}
+              >
+                Editar información
+              </Button>
+            </Link>
             <Link to={"/users/" + username + "/orders"}>
               <Button
                 variant="outlined"

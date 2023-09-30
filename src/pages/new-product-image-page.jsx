@@ -5,12 +5,14 @@ import { API_HOST } from "../utils/constants";
 import { toast } from "sonner";
 import { useCurrentUser } from "../hooks/use-current-user";
 import { useNavigate } from "react-router-dom";
+import { getLastUserProduct } from "../api/get-last-product-id";
 
-export function NewProductImage({ product_id }) {
+export function NewProductImage() {
   const [login, setLogin] = useState(false);
   const currentUser = useCurrentUser();
 
-  console.log(product_id);
+  const id_seller = currentUser.id;
+
   useEffect(() => {
     const isLoggedIn = currentUser !== null;
     setLogin(isLoggedIn);
@@ -36,10 +38,12 @@ export function NewProductImage({ product_id }) {
   };
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    formData.append("product_image", selectedImage);
-    formData.append("product_id", product_id);
+    const productData = await getLastUserProduct(id_seller);
+    const product_id = productData.data.product_id;
 
+    const formData = new FormData();
+    formData.append("product_id", product_id);
+    formData.append("product_image", selectedImage);
     try {
       const response = await fetch(API_HOST + "/products/new-image", {
         method: "POST",
@@ -51,7 +55,7 @@ export function NewProductImage({ product_id }) {
 
       if (response.ok) {
         toast.success("La imagen se ha subido correctamente.");
-        navigate("products/" + product_id);
+        navigate("/products/" + product_id);
       } else {
         toast.error("Ha fallado la subida de la imagen.");
       }
@@ -62,30 +66,39 @@ export function NewProductImage({ product_id }) {
 
   return (
     <Main>
-      <section className="flex justify-center items-center mb-4">
-        <span className="w-full lg:w-8/12 xl:w-7/12 bg-white rounded-lg shadow-md p-5">
+      <section className="flex flex-col justify-center items-center mb-4">
+        <span className="w-full lg:w-8/12 xl:w-7/12 bg-white rounded-lg shadow-md p-5 text-center">
           <Input
             type="file"
             accept="image/*"
+            id="product_image"
             onChange={handleFileInputChange}
+            style={{ display: "none" }}
           />
+          <label htmlFor="product_image">
+            <Button variant="contained" component="span">
+              ¡Sube la foto!
+            </Button>
+          </label>
 
           {previewImage && (
             <img
-              className="w-60 h-60 rounded-xl mx-auto"
+              className="w-60 h-60 rounded-xl mx-auto my-4"
               src={previewImage}
               alt="Image preview"
             />
           )}
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-          >
-            Subir imagen
-          </Button>
+          {previewImage && (
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+            >
+              Subir imagen
+            </Button>
+          )}
         </span>
       </section>
     </Main>
