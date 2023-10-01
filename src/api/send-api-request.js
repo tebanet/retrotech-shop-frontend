@@ -10,8 +10,9 @@ export const METHODS = {
 
 export async function sendApiRequest(method, endpoint, requestObject) {
 	const headers = {};
-	headers.append("Access-Control-Allow-Origin", "http://localhost:3000");
-	headers.append("Access-Control-Allow-Credentials", "true");
+
+	headers["Access-Control-Allow-Origin"] = "https://retrotechshop.vercel.app";
+	headers["Access-Control-Allow-Credentials"] = "true";
 
 	const body = requestObject ? JSON.stringify(requestObject) : undefined;
 	if (requestObject) {
