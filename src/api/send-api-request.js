@@ -9,10 +9,7 @@ export const METHODS = {
 };
 
 export async function sendApiRequest(method, endpoint, requestObject) {
-	const headers = {
-		"Access-Control-Allow-Origin": "https://retrotechshop.vercel.app",
-		"Access-Control-Allow-Credentials": "true",
-	};
+	const headers = {};
 
 	const body = requestObject ? JSON.stringify(requestObject) : undefined;
 	if (requestObject) {
