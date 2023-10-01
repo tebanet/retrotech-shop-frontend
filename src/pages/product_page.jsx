@@ -1,5 +1,8 @@
+import { useRef, useState, useEffect, useCallback } from "react";
+import IconButton from "@mui/material/IconButton";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import { toast } from "sonner";
 import { Main } from "../components/main";
-import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { getProductData } from "../api/get-product-data";
@@ -10,38 +13,52 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import DeleteIcon from "@mui/icons-material/Delete"; // Add this import
+import DeleteIcon from "@mui/icons-material/Delete";
 import { getPlaceOfSale } from "../hooks/get-place-of-sale";
 import { API_HOST } from "../utils/constants";
 import { OrderProductForm } from "../forms/order-product-form";
 import { postOrder } from "../api/post-order";
-import { deleteProduct } from "../api/delete-product"; // Add this import
-import { toast } from "sonner";
+import { deleteProduct } from "../api/delete-product";
+import { getUserData } from "../api/get-user-data";
 
 export function ProductPage() {
   const currentUser = useCurrentUser();
   const [ownership, setOwnership] = useState(false);
   const [login, setLogin] = useState(false);
-
   const [sold, setSold] = useState(false);
   const [buy, setBuy] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false); // Add this state
-
+  const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
-
   let { product_id } = useParams();
   const [productData, setProductData] = useState([]);
+  const fileInputRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [accountOwnership, setAccountOwnership] = useState(false);
+  const [userData, setUserData] = useState({});
+
   async function fetchProductData() {
     const result = await getProductData(product_id);
-    if (result.status == "ok") {
+    if (result.status === "ok") {
       setProductData(result.data);
     } else {
       navigate("/404");
     }
-    if (result.data.status != "available") {
+    if (result.data.status !== "available") {
       setSold(true);
     }
   }
+
+  const fetchUserData = useCallback(async () => {
+    const result = await getUserData(productData.username);
+    if (result.status === "ok") {
+      setUserData(result.data);
+    } else {
+      navigate("/404");
+    }
+  }, [productData.username, navigate]);
+
+  const token = localStorage.getItem("userToken");
+
   const shortDate = dayjs(productData.createdAt).format("DD/MM/YYYY");
 
   const placeOfSaleDisplayName = getPlaceOfSale(productData.place_of_sale);
@@ -71,13 +88,11 @@ export function ProductPage() {
     }
   })();
 
-  function checkOwnership() {
+  const checkOwnership = useCallback(() => {
     if (productData.username === currentUser?.username) {
-      setOwnership(true);
-    } else {
-      setOwnership(false);
+      setAccountOwnership(true);
     }
-  }
+  }, [productData.username, currentUser]);
 
   function checkLogin() {
     const isLoggedIn = currentUser !== null;
@@ -86,12 +101,9 @@ export function ProductPage() {
 
   useEffect(() => {
     fetchProductData();
-  }, [product_id]);
-
-  useEffect(() => {
     checkOwnership();
     checkLogin();
-  }, [fetchProductData]);
+  }, [product_id, fetchProductData, checkOwnership, checkLogin]);
 
   const [formData, setFormData] = useState({
     message: "",
@@ -105,6 +117,7 @@ export function ProductPage() {
       [name]: value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -134,13 +147,85 @@ export function ProductPage() {
     setShowConfirm(false);
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleCameraIconClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileInputChange = async (e) => {
+    if (e.target.files.length === 0) {
+      return;
+    }
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("product_id", product_id);
+    formData.append("product_image", file);
+
+    try {
+      const response = await fetch(API_HOST + "/products/new-image", {
+        method: "POST",
+        headers: {
+          Authorization: `${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        toast.success("La imagen se ha subido correctamente.");
+        fetchProductData(productData);
+      } else {
+        toast.error("Ha fallado la subida de la imagen.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Main>
       <section className="bg-gray-100 py-8">
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <section className="flex flex-col md:flex-row -mx-4">
             <section className="md:flex-1 px-4">
-              <span className="h-[460px] rounded-lg bg-gray-300 mb-4">
+              <span
+                className="h-[460px] rounded-lg bg-gray-300 mb-4 relative" // Add relative positioning
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                {isHovered && accountOwnership && (
+                  <IconButton
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)", // Center the icon horizontally and vertically
+                      background: "rgba(255, 255, 255, 0.7)",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    onClick={handleCameraIconClick}
+                  >
+                    <PhotoCameraIcon />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleFileInputChange}
+                      ref={fileInputRef}
+                    />
+                  </IconButton>
+                )}
+
                 <img
                   className="w-full h-full object-cover"
                   src={API_HOST + "/uploads/" + productData.product_image}
@@ -198,7 +283,7 @@ export function ProductPage() {
           </section>
         </section>
         <span className="flex flex-col items-center justify-center mt-4 mb-4 gap-4">
-          {ownership ? (
+          {accountOwnership ? (
             <span className="flex gap-4">
               <Link to={"/products/" + productData.product_id + "/update"}>
                 <Button variant="outlined" color="secondary">
