@@ -12,13 +12,16 @@
 
 ```sh
 npm install
+npm run dev
 ```
 
-## Author
+## Authors
 
 👤 **tebanet, kaysera14**
 
 * Github: [@tebanet](https://github.com/tebanet)
+* Github: [@Kaysera14](https://github.com/Kaysera14)
+
 
 ## Show your support
 
