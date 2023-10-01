@@ -150,7 +150,7 @@ export function UserPage() {
             <h3 className="text-xl font-semibold">Bio</h3>
             <p className="text-gray-600 mt-2">{userData.bio}</p>
           </span>
-          <span className="flex justify-center mt-5 gap-4">
+          <span className="flex flex-col items-center md:flex-row justify-center mt-5 gap-4">
             <Link to={"/users/update"}>
               <Button
                 variant="outlined"
