@@ -22,6 +22,7 @@ export async function sendApiRequest(method, endpoint, requestObject) {
 	}
 
 	const response = await fetch(API_HOST + endpoint, {
+		mode: "no-cors",
 		method,
 		headers,
 		body,
