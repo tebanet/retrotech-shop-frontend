@@ -282,7 +282,7 @@ export function ProductPage() {
             </section>
           </section>
         </section>
-        <span className="flex flex-col items-center justify-center mt-4 mb-4 gap-4">
+        <span className="flex flex-col items-center md:flex-row justify-center mt-4 mb-4 gap-4">
           {accountOwnership ? (
             <span className="flex gap-4">
               <Link to={"/products/" + productData.product_id + "/update"}>
