@@ -56,7 +56,7 @@ export function IndexPage() {
 			</h1>
 			<section>
 				{/* <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-20 gap-x-20 mt-7 mb-5"> */}
-				<ul className="flex flex-row flex-wrap justify-around gap-8">
+				<ul className="flex flex-row flex-wrap justify-around gap-16">
 					{products.map((product) => {
 						return (
 							<li key={product.product_id}>
