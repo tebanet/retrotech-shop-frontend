@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { getUserData } from "../api/get-user-data";
-import { Button } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { ProductCard } from "../components/product-card";
@@ -139,9 +139,14 @@ export function UserPage() {
 						{userData.username}
 					</h2>
 					<h3 className="text-center text-gray-600 mt-1">
-						{userData.media_valoracion
-							? `${userData.media_valoracion}/5`
-							: "Sin valoraciones"}
+						{userData.media_valoracion ? (
+							<span className="flex align-middle justify-center">
+								<Rating value={userData.media_valoracion} readOnly /> (
+								{userData.media_valoracion})
+							</span>
+						) : (
+							"Sin valoraciones"
+						)}
 					</h3>
 					<span className="flex justify-center mt-5">
 						<p>Usuario desde: {shortDate}</p>
