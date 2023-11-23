@@ -10,12 +10,12 @@ export function ModifyUserPage() {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
-    username: "",
-    bio: "",
-    address: "",
+    email: currentUser.email || "",
+    username: currentUser.username || "",
+    bio: currentUser.bio || "",
+    address: currentUser.address || "",
     password: "",
-    id: "",
+    id: currentUser.id || "",
   });
 
   const [validationErrors, setValidationErrors] = useState({});
