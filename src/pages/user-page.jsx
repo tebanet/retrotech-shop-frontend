@@ -172,32 +172,20 @@ export function UserPage() {
             <p className="text-gray-600 mt-2">{userData.bio}</p>
           </span>
           {accountOwnership ? (
-            <span className="flex flex-col items-center md:flex-row justify-center mt-5 gap-4">
+            <span className="flex flex-row justify-center mt-5 gap-4">
               <Link to={"/users/update"}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={{ width: "12rem" }}
-                >
-                  {isMobileView ? EditIcon : "Editar información"}
+                <Button variant="outlined" color="secondary">
+                  {isMobileView ? <EditIcon /> : "Editar información"}
                 </Button>
               </Link>
               <Link to={"/users/" + username + "/orders"}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={{ width: "12rem" }}
-                >
-                  {isMobileView ? ShoppingBagIcon : "Mis pedidos"}
+                <Button variant="outlined" color="secondary">
+                  {isMobileView ? <ShoppingBagIcon /> : "Mis pedidos"}
                 </Button>
               </Link>
               <Link to={"/users/" + username + "/offers"}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={{ width: "12rem" }}
-                >
-                  {isMobileView ? "LocalOfferIcon" : "Mis ofertas"}
+                <Button variant="outlined" color="secondary">
+                  {isMobileView ? <LocalOfferIcon /> : "Mis ofertas"}
                 </Button>
               </Link>
             </span>
