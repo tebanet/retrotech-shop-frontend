@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Main } from "../components/main";
 import { Link, useNavigate } from "react-router-dom";
 import { ModifyUserForm } from "../forms/modify-user-form";
@@ -9,17 +9,6 @@ import { getUserData } from "../api/get-user-data";
 
 export function ModifyUserPage() {
 	const currentUser = useCurrentUser();
-	const [userInfo, setUserInfo] = useState([]);
-	const fetchUserData = useCallback(async () => {
-		const result = await getUserData(currentUser.username);
-		if (result.status === "ok") {
-			setUserInfo(result.data);
-		}
-	}, []);
-
-	useEffect(() => {
-		fetchUserData();
-	}, [fetchUserData]);
 
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
@@ -30,6 +19,16 @@ export function ModifyUserPage() {
 		password: "",
 		id: currentUser.id || "",
 	});
+	useEffect(() => {
+		getUserData(currentUser.username).then((data) => {
+			setFormData({
+				email: data.data.email,
+				username: data.data.username,
+				bio: data.data.bio,
+				address: data.data.address,
+			});
+		});
+	}, []);
 
 	const [validationErrors, setValidationErrors] = useState({});
 
@@ -73,7 +72,7 @@ export function ModifyUserPage() {
 					await modifyUserInfo(email, username, bio, address, password, id);
 				}
 			}
-			navigate(`/`);
+			navigate(`/users/` + currentUser.username);
 		} catch (error) {
 			console.error("Error al actualizar el usuario:", error);
 		}

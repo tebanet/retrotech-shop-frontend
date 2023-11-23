@@ -52,7 +52,7 @@ export function IndexPage() {
 				</Link>
 			</nav>
 			<h1 className="text-center p-3 text-3xl mt-7 mb-2">
-				<strong>Revive la nostalgia,</strong> redescubre la tecnología!
+				<strong>Revive la nostalgia,</strong> ¡redescubre la tecnología!
 			</h1>
 			<section>
 				{/* <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-20 gap-x-20 mt-7 mb-5"> */}
